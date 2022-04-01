@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "392986852132",
+    "project_id": "cooking-afe47",
+    "storage_bucket": "cooking-afe47.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392986852132:android:b2c0f9153cb4758921d1b1",
+        "android_client_info": {
+          "package_name": "com.example.cooking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392986852132-4sag6p5ikv6fsdnskhnpal621chjlvej.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cooking",
+            "certificate_hash": "439f10bca593959d7dd4e72df94811d42dc5fb77"
+          }
+        },
+        {
+          "client_id": "392986852132-093ec095s1o1jmsaceh5kfarrspabkqs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrodWRkKqCUZli-1ImzUu9D-gkckRC8Lk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392986852132-093ec095s1o1jmsaceh5kfarrspabkqs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
