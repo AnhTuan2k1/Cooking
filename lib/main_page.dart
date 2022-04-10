@@ -1,10 +1,10 @@
 
 
-import 'package:cooking/search_food_page.dart';
+import 'package:cooking/screen/search_food/search_food_page.dart';
 import 'package:flutter/material.dart';
 
 import 'add_food_page.dart';
-import 'news_page.dart';
+import 'screen/news/news_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
