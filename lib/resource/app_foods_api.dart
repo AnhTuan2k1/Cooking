@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tiengviet/tiengviet.dart';
 
 import '../model/food.dart';
 
@@ -36,7 +37,8 @@ class FoodApi {
     final data = await assetBundle.loadString("assets/appfoods.json");
     final List body = jsonDecode(data);
 
-    return body.map((e) => Food.fromJson(e)).where((element) {
+    // phân biệt có dấu với không dấu
+/*    return body.map((e) => Food.fromJson(e)).where((element) {
       return keys.every((key) {
         return key == '' ||
             element.name
@@ -45,6 +47,19 @@ class FoodApi {
             element.ingredients.any((ingredient) => ingredient
                 .split(' ')
                 .any((element) => element.toLowerCase() == key.toLowerCase()));
+      });
+    }).toList();*/
+
+    // không phân biệt dấu
+    return body.map((e) => Food.fromJson(e)).where((element) {
+      return keys.every((key) {
+        return key == '' ||
+            element.name
+                .split(' ')
+                .any((element) => TiengViet.parse(element).toLowerCase() == TiengViet.parse(key).toLowerCase()) ||
+            element.ingredients.any((ingredient) => ingredient
+                .split(' ')
+                .any((element) => TiengViet.parse(element).toLowerCase() == TiengViet.parse(key).toLowerCase()));
       });
     }).toList();
   }
