@@ -6,8 +6,8 @@
     "origin" : "xuat xứ",
     "by": "user id",
     "image": null,
-    "serves": "2 people",
-    "cookTime": "1:30:00",
+    "serves": 2,
+    "cookTime": 90,
     "dateCreate": "25/3/2022",
 
     "ingredients": [
@@ -57,10 +57,12 @@
     "identify": "appfood2",
     "name": "Thịt kho tiêu và đậu hủ",
     "description": "Món ăn đơn giản nhưng rất hao cơm.Thịt kho tiêu cay cay thơm thơm kết hợp với đậu hủ mềm béo thật là ngon.",
-    "serves" : "1 nguoi",
+    "serves" : 2,
     "by": "admin",
     "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood2%2Fth%E1%BB%8Bt-kho-tieu-va-d%E1%BA%ADu-h%E1%BB%A7-recipe-main-photo.png?alt=media&token=f2728395-f169-4579-be4b-123ee4f8260d",
     "dateCreate": "15/2/2022",
+    "cookTime" : 65,
+    "origin" : "Đồng Nai",
 
 
     "ingredients": [

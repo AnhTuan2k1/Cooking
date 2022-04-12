@@ -10,7 +10,6 @@ class Food{
   String name;
   String description;
   String by;
-  String serves;
   String dateCreate;
   List<String> ingredients;
   List<Method> method;
@@ -24,8 +23,11 @@ class Food{
   @JsonKey(defaultValue: null)
   String? image;
 
-  @JsonKey(defaultValue: null)
-  String? cookTime;
+  @JsonKey(defaultValue: 1)
+  int serves;
+
+  @JsonKey(defaultValue: 45)
+  int? cookTime;
 
   @JsonKey(defaultValue: null)
   List<String>? likes;

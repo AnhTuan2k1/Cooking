@@ -1,3 +1,4 @@
+import 'package:cooking/screen/search_food/food_detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -156,7 +157,8 @@ class CustomSearchDelegate extends SearchDelegate {
             ),
           ),
           onTap: () {
-            print('food tap');
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => FoodDetail(food: food)));
           },
         );
       },
