@@ -38,16 +38,18 @@ class FoodApi {
 
     return body.map((e) => Food.fromJson(e)).where((element) {
       return keys.every((key) {
-        return element.name.contains(key) ||
-            element.ingredients.any((ingredient) => ingredient.contains(key));
+        return key == '' ||
+            element.name
+                .split(' ')
+                .any((element) => element.toLowerCase() == key.toLowerCase()) ||
+            element.ingredients.any((ingredient) => ingredient
+                .split(' ')
+                .any((element) => element.toLowerCase() == key.toLowerCase()));
       });
     }).toList();
   }
 
-
-  static getImages(Food image) {
-
-  }
+  static getImages(Food image) {}
 
   static Future<List<String>> _getDownloadLinks(List<Reference> refs) =>
       Future.wait(refs.map((ref) => ref.getDownloadURL()).toList());
