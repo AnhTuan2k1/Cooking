@@ -27,7 +27,7 @@ class Food{
   int serves;
 
   @JsonKey(defaultValue: 45)
-  int? cookTime;
+  int cookTime;
 
   @JsonKey(defaultValue: null)
   List<String>? likes;
