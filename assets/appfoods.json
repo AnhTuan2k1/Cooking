@@ -55,7 +55,7 @@
 
   {
     "identify": "appfood2",
-    "name": "Thịt kho tiêu và đậu hủ",
+    "name": "Thịt kho tiêu và đậu hủ",
     "description": "Món ăn đơn giản nhưng rất hao cơm.Thịt kho tiêu cay cay thơm thơm kết hợp với đậu hủ mềm béo thật là ngon.",
     "serves" : 2,
     "by": "admin",
@@ -68,13 +68,13 @@
     "ingredients": [
       "200 gr thịt heo",
       "3 miếng đậu hủ chiên",
-      "2 muỗng canh Nước mắm",
+      "2 muỗng canh Nước mắm",
       "3 muỗng cafe đường đường",
       "1/4 muỗng cafe bột ngọt bột ngọt",
       "1 muỗng cafe dầu hào",
       "1 muỗng cafe tiêu",
-      "1 muỗng cafe hạt nêm",
-      "Hành tỏi băm hoặc cắt nhỏ",
+      "1 muỗng cafe hạt nêm",
+      "Hành tỏi băm hoặc cắt nhỏ",
       "Nước dừa hoặc nước lọc"
     ],
 
