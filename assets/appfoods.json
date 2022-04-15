@@ -41,14 +41,24 @@
 
     "comments": [
       {
-        "user":"COMMENT_BY",
+        "user": {
+          "id": "id",
+          "imageUrl": "url",
+          "name": "name"
+        },
         "message": "TEXT1",
-        "timeCreated": "DATE_TIME"
+        "timeCreated": 5,
+        "identify": "xxx"
       },
       {
-        "user":"COMMENT_BY",
+        "user": {
+          "id": "id",
+          "imageUrl": "url",
+          "name": "name"
+        },
         "message": "TEXT2",
-        "timeCreated": "DATE_TIME"
+        "timeCreated": 5,
+        "identify": "xxx2"
       }
     ]
   },
@@ -81,27 +91,15 @@
     "method": [
       {
         "stepid":"1",
-        "content": "Thịt heo rửa sạch để ráo và cắt nhỏ,ướp với 2 muỗng canh nước mắm,1 muỗng cafe tiêu,¼ muỗng cafe bột ngọt, 3 muỗng cafe đường,1 muỗng cafe hạt nêm, 1 muỗng cafe dầu hào, hành tím băm nhỏ trộn đều rồi để 15 phút cho thấm gia vị.mĐậu hủ chiên cắt miếng nhỏ vuông.",
-        "image" : [
-          "url1",
-          "url2"
-        ]
+        "content": "Thịt heo rửa sạch để ráo và cắt nhỏ,ướp với 2 muỗng canh nước mắm,1 muỗng cafe tiêu,¼ muỗng cafe bột ngọt, 3 muỗng cafe đường,1 muỗng cafe hạt nêm, 1 muỗng cafe dầu hào, hành tím băm nhỏ trộn đều rồi để 15 phút cho thấm gia vị.mĐậu hủ chiên cắt miếng nhỏ vuông."
       },
       {
         "stepid":"2",
-        "content": "Cho chảo lên bếp cho 2 muỗng canh đường vào chảo để làm nước màu rồi cho thịt heo vào đảo đều cho săn lại rồi cho thêm nước dừa hoặc nước lọc vào để lửa riu riu rồi cho đậu hủ vào kho chung.",
-        "image" : [
-          "url1",
-          "url2"
-        ]
+        "content": "Cho chảo lên bếp cho 2 muỗng canh đường vào chảo để làm nước màu rồi cho thịt heo vào đảo đều cho săn lại rồi cho thêm nước dừa hoặc nước lọc vào để lửa riu riu rồi cho đậu hủ vào kho chung."
       },
       {
         "stepid":"3",
-        "content": "Kho cho đến khi thịt và đậu hủ thấm và hơi cạn nước thì nêm nếm lại cho vừa ăn rồi tắt bếp,rắc thêm ít tiêu cho thơm.",
-        "image" : [
-          "url1",
-          "url2"
-        ]
+        "content": "Kho cho đến khi thịt và đậu hủ thấm và hơi cạn nước thì nêm nếm lại cho vừa ăn rồi tắt bếp,rắc thêm ít tiêu cho thơm."
       }
     ]
   }

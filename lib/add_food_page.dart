@@ -11,7 +11,8 @@ class AddFoodPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return
+      Scaffold(
       body: FutureBuilder<List<Food>>(
         future: FoodApi.getFoodsLocally(context),
         builder: (context, snapshot) {

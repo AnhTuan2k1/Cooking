@@ -1,5 +1,6 @@
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'comment.dart';
 import 'method.dart';
 
