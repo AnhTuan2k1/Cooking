@@ -86,6 +86,7 @@ class FirestoreApi {
         .collection('comment')
         .doc(foodId)
         .collection('comments')
+        .orderBy('timeCreated', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => Comment.fromJson(doc.data()))

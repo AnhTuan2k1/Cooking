@@ -1,6 +1,5 @@
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'comment.dart';
 import 'method.dart';
 
@@ -10,10 +9,12 @@ part 'food.g.dart';
 class Food{
   String name;
   String description;
-  String by;
   String dateCreate;
   List<String> ingredients;
   List<Method> method;
+
+  @JsonKey(defaultValue: null)
+  String? by;
 
   @JsonKey(defaultValue: null)
   String? identify;

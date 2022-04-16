@@ -51,7 +51,7 @@ class FoodDetail extends StatelessWidget {
             )),
         ListTile(
             leading: CircleAvatar(backgroundColor: Colors.purpleAccent),
-            title: Text(food.by),
+            title: Text(food.by??"admini"),
             subtitle: Row(children: [
               Icon(Icons.location_on_outlined),
               Text(food.origin ?? '...'),
@@ -181,7 +181,8 @@ class FoodDetail extends StatelessWidget {
 
   MessageSection(List<Comment>? comments, BuildContext context) {
     GoogleSignInAccount? user = GoogleProvider.user;
-    if (user == null) return SizedBox();
+    if (user == null || food.by == null) return SizedBox();
+
     return SizedBox(
       height: 100,
       child: Column(
@@ -209,7 +210,7 @@ class FoodDetail extends StatelessWidget {
                         border: OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(50))),
-                        labelText: '  Thêm bình luận',
+                        labelText: ' Thêm bình luận',
                       ),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
