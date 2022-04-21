@@ -137,5 +137,246 @@
         "content": "Cho chảo lên bếp cho 2 muỗng canh đường vào chảo để làm nước màu rồi cho thịt heo vào đảo đều cho săn lại rồi cho thêm nước dừa hoặc nước lọc vào để lửa riu riu rồi cho đậu hủ vào kho chung."
       }
     ]
+  },
+
+  {
+    "identify": "appfood3",
+    "name": "Bánh canh tôm thịt",
+    "description": " ",
+    "serves" : 2,
+    "by": "admin",
+    "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood3%2Fbanh-canh-tom-th%E1%BB%8Bt-recipe-main-photo.png?alt=media&token=d2a30ac1-2be5-4e30-8f70-f368a2ac02b1",
+    "dateCreate": "2022-2-25",
+    "cookTime" : 20,
+    "origin" : "tphcm",
+
+
+    "ingredients": [
+      "2 bộ xương gà",
+      "200 g thịt nạc đùi",
+      "100 g thịt băm",
+      "200 g tôm",
+      "1 kg bánh canh",
+      "1 củ cà rốt",
+      "1 củ cải trắng"
+    ],
+
+    "method": [
+      {
+        "stepid":"1",
+        "content": "Hầm xương gà, thịt đùi để nguyên miếng với củ cải cà rốt với 2,5 lít nước và vớt bọt cho nước dừa trong rồi nêm muối, nước mắm, bột ngọt, đường,hành tím băm.Thịt băm ướp nước mắm, bột ngọt, tiêu rồi múc muỗng thả vô nước dùng. Cho tôm vô luộc chín."
+      },
+      {
+        "stepid":"2",
+        "content": "Bánh canh trụng qua nước sôi. Cho giá, bánh canh ra tô, chan nước dùng nóng, xếp tôm lột vỏ, thịt đùi cắt lát mỏng lên. Thêm hành ngò."
+      }
+    ]
+  },
+
+  {
+    "identify": "appfood4",
+    "name": "Bánh đúc yến mạch thịt băm rang",
+    "description": "Món bánh đúc được làm từ yến mạch vừa mềm vừa nhiều chất sơ… cả người lớn và bé đều có thể ăn.",
+    "serves" : 3,
+    "by": "admin",
+    "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood4%2Fbanh-duc-y%E1%BA%BFn-m%E1%BA%A1ch-th%E1%BB%8Bt-bam-rang-recipe-main-photo.png?alt=media&token=ed141e12-175d-43fb-bb81-b577728f6775",
+    "dateCreate": "2022-2-25",
+    "cookTime" : 10,
+    "origin" : "tphcm",
+
+
+    "ingredients": [
+      "Yến mạch cán dẹt (bột yến mạch)",
+      "Thịt băm",
+      "Nấm mèo (mộc nhĩ)",
+      "Sốt thơm",
+      "Ớt chuông",
+      "Nước lọc"
+    ],
+
+    "method": [
+      {
+        "stepid":"1",
+        "content": "2 muỗng Yến mạch ngâm 30p rửa lại cho bớt nhớt rồi xay cùng 150ml nước lọc, lọc qua rây bỏ xác. (dùng bột yến mạch thì ko ngâm mà bỏ vào máy xay lọc bỏ bã). Đặt nồi nước yến mạch lên bếp cho vào 1/2 muỗng dầu oliu khuấy đều ở lửa nhỏ. Đến khi hỗn hợp sôi thấy sệt thì tắt bếp và múc ra chén."
+      },
+      {
+        "stepid":"2",
+        "content": "Thịt nạc băm nhuyễn, nấm mèo băm nhuyễn. Phi thơm hành tím, cho thịt nạc và nấm mèo vào rang chín đều rồi tắt bếp. Cho thịt rang lên trên chén yến mạch."
+      },
+      {
+        "stepid":"3",
+        "content": "Sốt thơm đặt lên bếp sôi lăn tăn thì thả ít ớt chuông cắt nhỏ làm nước chấm (bé trên 1t thêm chút nước mắm cho đậm vị ngon hơn)."
+      },
+      {
+        "stepid":"4",
+        "content": "Khi ăn rưới sốt thơm lên ăn kèm. Có thể cho thêm ít hành phi lên trên ăn cùng nếu muốn."
+      }
+    ]
+  },
+
+  {
+    "identify": "appfood5",
+    "name": "Mực Xào Chua Ngọt (Hành Cần Dưa Leo Ớt Chuông Thơm)",
+    "description": "Đợt này tủ lạnh có nhiều rau củ quá phải giải phóng bớt, không gì hợp lý hơn bằng 1 chảo xào ăn túc tắc nguyên ngày. Dễ mà ngon. 🤤",
+    "serves" : 4,
+    "by": "admin",
+    "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood5%2Fm%E1%BB%B1c-xao-chua-ng%E1%BB%8Dt-hanh-c%E1%BA%A7n-d%C6%B0a-leo-%E1%BB%9Bt-chuong-th%C6%A1m-recipe-main-photo.png?alt=media&token=3ee8eec4-3566-4e11-839e-73e9dd4f5d56",
+    "dateCreate": "2022-2-25",
+    "cookTime" : 15,
+    "origin" : "tphcm",
+
+
+    "ingredients": [
+      "Mực ống câu nháy mi nơ",
+      "Cần tây",
+      "Hành tây",
+      "Ớt chuông",
+      "Thơm",
+      "Dưa leo",
+      "Hạt nêm, muối, mắm, tiêu, sa tế ớt, dầu hào"
+    ],
+
+    "method": [
+      {
+        "stepid":"1",
+        "content": "Chuẩn bị nguyên liệu sẵn sàng 🤘🏻"
+      },
+      {
+        "stepid":"2",
+        "content": "Phi thơm ít hành tỏi, củ nén đập dập với dầu ăn, rồi cho mực xào lửa lớn, nêm thêm nước mắm, muối, hạt nêm, hạt tiêu, sa tế tôm cho vừa ăn."
+      },
+      {
+        "stepid":"3",
+        "content": "Mực chín vớt ra vô. Cho cọng cần tây to vào chảo xào cho chín với ít nước mực xào đã tiết ra."
+      },
+      {
+        "stepid":"4",
+        "content": "Cho thêm thơm & hành tây vào. Nêm ít hạt nêm, nước mắm, dầu hào cho vừa ăn"
+      },
+      {
+        "stepid":"5",
+        "content":"Cuối cùng cho dưa leo & ớt chuông vào. Thêm ít dầu hào đảo đều."
+      },
+      {
+        "stepid":"6",
+        "content":"Tắt bếp thêm lá cần tây đảo đều & múc ra đĩa rắc ít tiêu."
+      },
+      {
+        "stepid":"7",
+        "content":"Yummy"
+      }
+    ]
+  },
+
+  {
+    "identify": "appfood6",
+    "name": "Thịt đùi gà xào lăn",
+    "description": "Nếu bạn đã chán gà luộc, gà kho, gà xáo, ủ muối... các kiểu thì bạn hãy thử món đùi xào lăn này nhé!",
+    "serves" : 3,
+    "by": "admin",
+    "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood6%2Fth%E1%BB%8Bt-dui-ga-xao-lan-recipe-main-photo.png?alt=media&token=748be70a-b9c4-41dc-b975-12db81bd6f3a",
+    "dateCreate": "2022-2-25",
+    "cookTime" : 30,
+    "origin" : "Hải Phòng",
+
+
+    "ingredients": [
+      "500 g thịt đùi gà chọi",
+      "2 củ xả, 1 quả ớt sừng, 1 miếng gừng bằng ngón tay cái, 3-4 lá chanh",
+      "Dầu hào, bột canh, dầu ăn, 50g lạc rang"
+    ],
+
+    "method": [
+      {
+        "stepid":"1",
+        "content": "Đùi gà rửa sạch bằng muối, lọc bỏ xương. Mình mua đùi gà chọi đã được lọc xương sẵn, và thui sơ phần da. Xả cắt lát phần non, hành, ớt cắt mỏng, lá chanh, gừng cắt chỉ (dao cùn nên mình cắt hơi to :) )"
+      },
+      {
+        "stepid":"2",
+        "content": "Thịt cắt mỏng, bản to, ướp với 1 thìa canh dầu hào, 1 thìa canh dầu ăn, 1 thìa cà phê bột canh hoặc hạt nêm. Để 15 phút trở ra cho ngấm."
+      },
+      {
+        "stepid":"3",
+        "content": "Cho dầu vào chảo, trút xả, hành, gừng phi thơm rồi cho thịt gà vào đảo đều, nhanh tay đến khi miếng gà săn lại thì nêm nếm cho vừa miệng rồi tắt bếp. Trút gà ra đĩa, rắc lá chanh và lạc rang lên, ăn nóng với lon bia lạnh nữa thì nhức nách!"
+      }
+    ]
+  },
+
+  {
+    "identify": "appfood7",
+    "name": "Trà (chè) trứng “khủng long”",
+    "description": "Chè trứng gà trà tàu là một món ăn rất nổi tiếng của người Hoa giúp an thận, bổ phổi, đẹp da, thanh giọng, thanh nhiệt.",
+    "serves" : 5,
+    "by": "admin",
+    "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood7%2Ftra-che-tr%E1%BB%A9ng-kh%E1%BB%A7ng-long-recipe-main-photo.png.png?alt=media&token=85d46342-0101-403a-9e94-12a46fbbaf70",
+    "dateCreate": "2022-2-25",
+    "cookTime" : 90,
+    "origin" : "Triều Châu",
+
+
+    "ingredients": [
+      "5 trứng gà, trứng vịt hoặc trứng cút đều được",
+      "20 gr hồng trà (có thể dùng trà earlgrey, phổ nhĩ, dilmah…đều được)",
+      "30 gr táo tàu (có thể sử dụng táo thái lát bỏ hạt rồi nha)",
+      "30 gr long nhãn",
+      "10 gr kỉ tử",
+      "2 hoa hồi",
+      "1 thanh quế"
+    ],
+
+    "method": [
+      {
+        "stepid":"1",
+        "content": "Đun sôi trà với 1.5l nước, sau đó đun nhỏ lửa thêm 5p để trà ra hết nước cốt. Tắt bếp, ủ trà 20p rồi lọc bỏ bã trà"
+      },
+      {
+        "stepid":"2",
+        "content": "Rửa sạch trứng, luộc trứng chín, và đập nứt nhẹ vỏ trứng (Nứt thôi chứ không bóc hết vỏ ra nhé)"
+      },
+      {
+        "stepid":"3",
+        "content": "Bỏ trứng vào trà, bật nhỏ lửa đun trong 5p, sau đó cho quế, hồi cùng đường phèn vào nấu 60p (dùng đường kiêng thì sau khi nấu xong hãy bỏ đường nha). Tiếp tục cho các nguyên liệu còn lại vào nấu thêm 30p nữa."
+      },
+      {
+        "stepid":"4",
+        "content":"Vớt trứng ra, bóc bỏ hết vỏ, thả vào lại đun thêm 5p. Lúc này nhìn trứng sẽ có các đường vân rất đẹp. Múc ra và thưởng thức thôi. Ăn lạnh hoặc nóng đều ngon nhé"
+      }
+    ]
+  },
+
+  {
+    "identify": "appfood8",
+    "name": "Canh ngao biển nấu chua",
+    "description": "Quê gần biển nên hay mua được hải sản tươi ngon. Bưã nay mình mua được cả yến ngao biển, loại to như con trai, ăn rất ngọt nước.",
+    "serves" : 4,
+    "by": "admin",
+    "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood8%2Fcanh-ngao-bi%E1%BB%83n-n%E1%BA%A5u-chua-recipe-main-photo.png?alt=media&token=6488d118-6e94-422c-bd7c-31829aff613b",
+    "dateCreate": "2022-2-25",
+    "cookTime" : 30,
+    "origin" : "tphcm",
+
+
+    "ingredients": [
+      "1 kí ngao",
+      "3-4 trái cà chua",
+      "hành khô",
+      "hành lá, thì là",
+      "hạt nêm, mì chính, nước mắm"
+    ],
+
+    "method": [
+      {
+        "stepid":"1",
+        "content": "Luộc ngao, sau đó bóc lấy phần ruột. Vì là ngao ở biển nên khúc này phải làm kĩ không thì lúc ăn sẽ bị gợn cát. Lấy tay nguấy đều phần ngao trong nước đã luộc, sau đó gạn từ từ phần nước ra một cái tô khác, lúc này cát sẽ đọng lại phần đáy, đổ hết phần cát đó đi. Cứ làm như vậy khoảng 2_3 lần là sạch cát. Sau đó bỏ riêng phần cái và phần nước. Phi hành thơm, cho ngao vào xào chung, nêm xíu nước mắm, xào cho đậm thịt, sau đó đổ phàn nước luộc ngao nãy vào. Cà chua cắt múi cau, cho vào luôn."
+      },
+      {
+        "stepid":"2",
+        "content": "Hành lá, thì là, đầu hành cắt nhỏ."
+      },
+      {
+        "stepid":"3",
+        "content": "Nồi nước sôi, thì nêm thêm 2mc hạt nêm, 1mcf mì chính. Múc canh ra tô, cho hành lá và thì là vào"
+      }
+    ]
   }
 ]
