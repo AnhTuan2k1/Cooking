@@ -1,9 +1,10 @@
 
 
+import 'package:cooking/screen/add_food/account_page.dart';
 import 'package:cooking/screen/search_food/search_food_page.dart';
 import 'package:flutter/material.dart';
 
-import 'add_food_page.dart';
+import 'screen/add_food/add_food_page.dart';
 import 'screen/news/news_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 2;
   static const List<Widget> _widgetOptions = <Widget>[
     NewsPage(),
-    AddFoodPage(),
+    AccountPage(),
     SearchFoodPage(),
   ];
 

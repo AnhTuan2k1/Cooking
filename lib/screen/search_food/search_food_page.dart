@@ -10,34 +10,22 @@ class SearchFoodPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-          child: Container(
-            padding: EdgeInsets.only(top: 15),
-            width: double.infinity,
-            color: Colors.white,
-            child: GestureDetector(
-              child: Container(
-                margin: EdgeInsets.fromLTRB(10, 0, 5, 10),
-                color: Colors.black12,
-                child: ListTile(
-                  leading: Icon(Icons.search),
-                  title: Text("Nhập tên món ăn hoặc nguyên liệu"),
-                ),
-              ),
-              onTap: () {
-                showSearch(context: context, delegate: CustomSearchDelegate());
-              },
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: GestureDetector(
+          child: const ListTile(
+            leading: Icon(Icons.search),
+            title: Text("Tìm các món ăn hoặc nguyên liệu"),
           ),
+          onTap: () {
+            showSearch(context: context, delegate: CustomSearchDelegate());
+          },
         ),
-        Expanded(
-          child: Center(
-            child: Text("Search Page"),
-          ),
-        )
-      ],
+      ),
+      body: const Center(
+        child: Text("Search Page"),
+      ),
     );
   }
 }
