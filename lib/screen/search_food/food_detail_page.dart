@@ -126,11 +126,9 @@ class FoodDetail extends StatelessWidget {
                 children: [
                   Text(method[i].content),
                   const SizedBox(height: 10),
-                  SizedBox(
-                      height: 100,
-                      child: getImagesDependOnDirectory(
-                          'appfoods/${food.identify}/step${food.method[i].stepid}')),
-                  const SizedBox(height: 10),
+                  getImagesDependOnDirectory(
+                      'appfoods/${food.identify}/step${food.method[i].stepid}'),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -163,14 +161,18 @@ class FoodDetail extends StatelessWidget {
             // ignore: curly_braces_in_flow_control_structures
             return Center(child: Text(snapshot.error.toString()));
           else if (imageLinks != null) {
-            return ListView.builder(
-                itemCount: imageLinks.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Container(
-                      padding: const EdgeInsets.only(right: 5),
-                      child: FoodApi.getImage(imageLinks[index]));
-                });
+
+            return SizedBox(
+              height: imageLinks.isEmpty ? 0.0 : 100.0,
+              child: ListView.builder(
+                  itemCount: imageLinks.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Container(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: FoodApi.getImage(imageLinks[index]));
+                  }),
+            );
           }
 
           // ignore: curly_braces_in_flow_control_structures

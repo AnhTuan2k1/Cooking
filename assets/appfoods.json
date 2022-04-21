@@ -108,42 +108,6 @@
     "name": "Bánh canh tôm thịt",
     "description": " ",
     "serves" : 2,
-    "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood3%2Fbanh-canh-tom-th%E1%BB%8Bt-recipe-main-photo.png?alt=media&token=d2a30ac1-2be5-4e30-8f70-f368a2ac02b1",
-    "dateCreate": "2022-2-25",
-    "cookTime" : 65,
-    "origin" : "tphcm",
-
-
-    "ingredients": [
-      "200 gr thịt heo",
-      "3 miếng đậu hủ chiên",
-      "2 muỗng canh Nước mắm",
-      "3 muỗng cafe đường đường",
-      "1/4 muỗng cafe bột ngọt bột ngọt",
-      "1 muỗng cafe dầu hào",
-      "1 muỗng cafe tiêu",
-      "1 muỗng cafe hạt nêm",
-      "Hành tỏi băm hoặc cắt nhỏ",
-      "Nước dừa hoặc nước lọc"
-    ],
-
-    "method": [
-      {
-        "stepid":"1",
-        "content": "Thịt heo rửa sạch để ráo và cắt nhỏ,ướp với 2 muỗng canh nước mắm,1 muỗng cafe tiêu,¼ muỗng cafe bột ngọt, 3 muỗng cafe đường,1 muỗng cafe hạt nêm, 1 muỗng cafe dầu hào, hành tím băm nhỏ trộn đều rồi để 15 phút cho thấm gia vị.mĐậu hủ chiên cắt miếng nhỏ vuông."
-      },
-      {
-        "stepid":"2",
-        "content": "Cho chảo lên bếp cho 2 muỗng canh đường vào chảo để làm nước màu rồi cho thịt heo vào đảo đều cho săn lại rồi cho thêm nước dừa hoặc nước lọc vào để lửa riu riu rồi cho đậu hủ vào kho chung."
-      }
-    ]
-  },
-
-  {
-    "identify": "appfood3",
-    "name": "Bánh canh tôm thịt",
-    "description": " ",
-    "serves" : 2,
     "by": "admin",
     "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood3%2Fbanh-canh-tom-th%E1%BB%8Bt-recipe-main-photo.png?alt=media&token=d2a30ac1-2be5-4e30-8f70-f368a2ac02b1",
     "dateCreate": "2022-2-25",
