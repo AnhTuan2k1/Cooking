@@ -70,6 +70,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../model/food.dart';
 import '../../resource/app_foods_api.dart';
+import '../notification/toast.dart';
 import '../search_food/food_detail_page.dart';
 
 class NewsPage extends StatefulWidget {
@@ -78,35 +79,6 @@ class NewsPage extends StatefulWidget {
 
   @override
   State<NewsPage> createState() => _NewsPageState();
-
-  static _showToast(BuildContext context, String msg) {
-    FToast fToast = FToast();
-    fToast.init(context);
-
-    Widget toast = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.0),
-        color: Colors.greenAccent,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.check),
-          SizedBox(
-            width: 12.0,
-          ),
-          Text(msg),
-        ],
-      ),
-    );
-
-    fToast.showToast(
-      child: toast,
-      gravity: ToastGravity.BOTTOM,
-      toastDuration: Duration(seconds: 2),
-    );
-  }
 }
 
 class _NewsPageState extends State<NewsPage> {
@@ -125,8 +97,8 @@ class _NewsPageState extends State<NewsPage> {
                 await GoogleProvider.login()
                     .then((value) =>{
                   if(GoogleProvider.user != null)
-                    NewsPage._showToast(context, 'Login successfully')
-                  else NewsPage._showToast(context, 'Login failed')
+                    showToast(context, 'Login successfully')
+                  else showToast(context, 'Login failed')
                 });
                 setState(() {});
               }),
@@ -136,8 +108,8 @@ class _NewsPageState extends State<NewsPage> {
                 await GoogleProvider.logout()
                     .then((value) =>{
                   if(GoogleProvider.user == null)
-                    NewsPage._showToast(context, 'Logout successfully')
-                  else NewsPage._showToast(context, 'Logout failed')
+                    showToast(context, 'Logout successfully')
+                  else showToast(context, 'Logout failed')
                 });
                 setState(() {});
               }),

@@ -41,14 +41,24 @@
 
     "comments": [
       {
-        "user":"COMMENT_BY",
+        "user": {
+          "id": "id",
+          "imageUrl": "url",
+          "name": "name"
+        },
         "message": "TEXT1",
-        "timeCreated": "DATE_TIME"
+        "timeCreated": 5,
+        "identify": "xxx"
       },
       {
-        "user":"COMMENT_BY",
+        "user": {
+          "id": "id",
+          "imageUrl": "url",
+          "name": "name"
+        },
         "message": "TEXT2",
-        "timeCreated": "DATE_TIME"
+        "timeCreated": 5,
+        "identify": "xxx2"
       }
     ]
   },
@@ -58,9 +68,8 @@
     "name": "Thịt kho tiêu và đậu hủ",
     "description": "Món ăn đơn giản nhưng rất hao cơm.Thịt kho tiêu cay cay thơm thơm kết hợp với đậu hủ mềm béo thật là ngon.",
     "serves" : 2,
-    "by": "admin",
     "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood2%2Fth%E1%BB%8Bt-kho-tieu-va-d%E1%BA%ADu-h%E1%BB%A7-recipe-main-photo.png?alt=media&token=f2728395-f169-4579-be4b-123ee4f8260d",
-    "dateCreate": "15/2/2022",
+    "dateCreate": "2022-2-25",
     "cookTime" : 65,
     "origin" : "Đồng Nai",
 
@@ -81,27 +90,15 @@
     "method": [
       {
         "stepid":"1",
-        "content": "Thịt heo rửa sạch để ráo và cắt nhỏ,ướp với 2 muỗng canh nước mắm,1 muỗng cafe tiêu,¼ muỗng cafe bột ngọt, 3 muỗng cafe đường,1 muỗng cafe hạt nêm, 1 muỗng cafe dầu hào, hành tím băm nhỏ trộn đều rồi để 15 phút cho thấm gia vị.mĐậu hủ chiên cắt miếng nhỏ vuông.",
-        "image" : [
-          "url1",
-          "url2"
-        ]
+        "content": "Thịt heo rửa sạch để ráo và cắt nhỏ,ướp với 2 muỗng canh nước mắm,1 muỗng cafe tiêu,¼ muỗng cafe bột ngọt, 3 muỗng cafe đường,1 muỗng cafe hạt nêm, 1 muỗng cafe dầu hào, hành tím băm nhỏ trộn đều rồi để 15 phút cho thấm gia vị.mĐậu hủ chiên cắt miếng nhỏ vuông."
       },
       {
         "stepid":"2",
-        "content": "Cho chảo lên bếp cho 2 muỗng canh đường vào chảo để làm nước màu rồi cho thịt heo vào đảo đều cho săn lại rồi cho thêm nước dừa hoặc nước lọc vào để lửa riu riu rồi cho đậu hủ vào kho chung.",
-        "image" : [
-          "url1",
-          "url2"
-        ]
+        "content": "Cho chảo lên bếp cho 2 muỗng canh đường vào chảo để làm nước màu rồi cho thịt heo vào đảo đều cho săn lại rồi cho thêm nước dừa hoặc nước lọc vào để lửa riu riu rồi cho đậu hủ vào kho chung."
       },
       {
         "stepid":"3",
-        "content": "Kho cho đến khi thịt và đậu hủ thấm và hơi cạn nước thì nêm nếm lại cho vừa ăn rồi tắt bếp,rắc thêm ít tiêu cho thơm.",
-        "image" : [
-          "url1",
-          "url2"
-        ]
+        "content": "Kho cho đến khi thịt và đậu hủ thấm và hơi cạn nước thì nêm nếm lại cho vừa ăn rồi tắt bếp,rắc thêm ít tiêu cho thơm."
       }
     ]
   },
@@ -111,7 +108,6 @@
     "name": "Bánh canh tôm thịt",
     "description": " ",
     "serves" : 2,
-    "by": "admin",
     "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood3%2Fbanh-canh-tom-th%E1%BB%8Bt-recipe-main-photo.png?alt=media&token=d2a30ac1-2be5-4e30-8f70-f368a2ac02b1",
     "dateCreate": "2022-2-25",
     "cookTime" : 20,
@@ -145,7 +141,6 @@
     "name": "Bánh đúc yến mạch thịt băm rang",
     "description": "Món bánh đúc được làm từ yến mạch vừa mềm vừa nhiều chất sơ… cả người lớn và bé đều có thể ăn.",
     "serves" : 3,
-    "by": "admin",
     "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood4%2Fbanh-duc-y%E1%BA%BFn-m%E1%BA%A1ch-th%E1%BB%8Bt-bam-rang-recipe-main-photo.png?alt=media&token=ed141e12-175d-43fb-bb81-b577728f6775",
     "dateCreate": "2022-2-25",
     "cookTime" : 10,
@@ -186,7 +181,6 @@
     "name": "Mực Xào Chua Ngọt (Hành Cần Dưa Leo Ớt Chuông Thơm)",
     "description": "Đợt này tủ lạnh có nhiều rau củ quá phải giải phóng bớt, không gì hợp lý hơn bằng 1 chảo xào ăn túc tắc nguyên ngày. Dễ mà ngon. 🤤",
     "serves" : 4,
-    "by": "admin",
     "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood5%2Fm%E1%BB%B1c-xao-chua-ng%E1%BB%8Dt-hanh-c%E1%BA%A7n-d%C6%B0a-leo-%E1%BB%9Bt-chuong-th%C6%A1m-recipe-main-photo.png?alt=media&token=3ee8eec4-3566-4e11-839e-73e9dd4f5d56",
     "dateCreate": "2022-2-25",
     "cookTime" : 15,
@@ -240,7 +234,6 @@
     "name": "Thịt đùi gà xào lăn",
     "description": "Nếu bạn đã chán gà luộc, gà kho, gà xáo, ủ muối... các kiểu thì bạn hãy thử món đùi xào lăn này nhé!",
     "serves" : 3,
-    "by": "admin",
     "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood6%2Fth%E1%BB%8Bt-dui-ga-xao-lan-recipe-main-photo.png?alt=media&token=748be70a-b9c4-41dc-b975-12db81bd6f3a",
     "dateCreate": "2022-2-25",
     "cookTime" : 30,
@@ -274,7 +267,6 @@
     "name": "Trà (chè) trứng “khủng long”",
     "description": "Chè trứng gà trà tàu là một món ăn rất nổi tiếng của người Hoa giúp an thận, bổ phổi, đẹp da, thanh giọng, thanh nhiệt.",
     "serves" : 5,
-    "by": "admin",
     "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood7%2Ftra-che-tr%E1%BB%A9ng-kh%E1%BB%A7ng-long-recipe-main-photo.png.png?alt=media&token=85d46342-0101-403a-9e94-12a46fbbaf70",
     "dateCreate": "2022-2-25",
     "cookTime" : 90,
@@ -316,7 +308,6 @@
     "name": "Canh ngao biển nấu chua",
     "description": "Quê gần biển nên hay mua được hải sản tươi ngon. Bưã nay mình mua được cả yến ngao biển, loại to như con trai, ăn rất ngọt nước.",
     "serves" : 4,
-    "by": "admin",
     "image": "https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/appfoods%2Fappfood8%2Fcanh-ngao-bi%E1%BB%83n-n%E1%BA%A5u-chua-recipe-main-photo.png?alt=media&token=6488d118-6e94-422c-bd7c-31829aff613b",
     "dateCreate": "2022-2-25",
     "cookTime" : 30,

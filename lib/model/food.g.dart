@@ -9,7 +9,7 @@ part of 'food.dart';
 Food _$FoodFromJson(Map<String, dynamic> json) => Food(
       json['name'] as String,
       json['description'] as String,
-      json['by'] as String,
+      json['by'] as String?,
       json['serves'] as int? ?? 1,
       json['dateCreate'] as String,
       (json['ingredients'] as List<dynamic>).map((e) => e as String).toList(),
@@ -29,10 +29,10 @@ Food _$FoodFromJson(Map<String, dynamic> json) => Food(
 Map<String, dynamic> _$FoodToJson(Food instance) => <String, dynamic>{
       'name': instance.name,
       'description': instance.description,
-      'by': instance.by,
       'dateCreate': instance.dateCreate,
       'ingredients': instance.ingredients,
       'method': instance.method.map((e) => e.toJson()).toList(),
+      'by': instance.by,
       'identify': instance.identify,
       'origin': instance.origin,
       'image': instance.image,

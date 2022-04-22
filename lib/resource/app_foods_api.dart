@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -75,5 +76,14 @@ class FoodApi {
     final urls = await _getDownloadLinks(result.items);
 
     return urls;
+  }
+
+  static Future uploadFile(File file, String ref, String filename) async{
+    try {
+      print('----------okok2----------$ref');
+      await FirebaseStorage.instance.ref(ref).child(filename).putFile(file);
+    } on FirebaseException catch (e) {
+      print('------------' + e.message.toString());
+    }
   }
 }
