@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../model/ingredient.dart';
+
 class Ingredients extends StatefulWidget {
-  const Ingredients({Key? key}) : super(key: key);
+  Ingredients({required this.ingredient, Key? key}) : super(key: key);
+  List<Ingredient> ingredient;
 
   @override
   _IngredientsState createState() => _IngredientsState();
@@ -12,7 +15,8 @@ class _IngredientsState extends State<Ingredients> {
 
   @override
   void initState(){
-    list.add(ingredient());
+    widget.ingredient.add(Ingredient());
+    list.add(ingredient(widget.ingredient[list.length]));
   }
 
   @override
@@ -26,7 +30,10 @@ class _IngredientsState extends State<Ingredients> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children:[
                 GestureDetector(
-                  onTap: () => setState(()=> list.add(ingredient())),
+                  onTap: () => setState((){
+                    widget.ingredient.add(Ingredient());
+                    list.add(ingredient(widget.ingredient[list.length]));
+                  }),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -36,7 +43,10 @@ class _IngredientsState extends State<Ingredients> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => setState(()=> list.removeLast()),
+                  onTap: () => setState((){
+                    widget.ingredient.removeLast();
+                    list.removeLast();
+                  }),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -89,7 +99,7 @@ class _IngredientsState extends State<Ingredients> {
     );*/
   }
 
-  Widget ingredient()
+  Widget ingredient(Ingredient index)
   {
     return Row(
       children: [
@@ -97,6 +107,7 @@ class _IngredientsState extends State<Ingredients> {
           child: Padding(
             padding: const EdgeInsets.only(top: 10),
             child: TextField(
+              onChanged: (value) => index.content = value,
               maxLength: 56,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(15),

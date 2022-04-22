@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cooking/model/comment.dart';
 import 'package:cooking/model/method.dart';
 import 'package:cooking/model/user.dart';
 import 'package:cooking/provider/google_sign_in.dart';
+import 'package:cooking/resource/app_foods_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:cooking/screen/news/news_page.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import '../model/food.dart';
 
@@ -32,6 +36,63 @@ class FirestoreApi {
     await docFood.set(food.toJson());
 
     return true;
+  }
+
+  static Future<bool> createUserFood(
+      String namefood,
+      String scriptfood,
+      int serves,
+      String date,
+      List<String> ingre,
+      List<Method> steps,
+      String? ori,
+      String img,
+      int cookTime) async {
+    try {
+      String? id = GoogleProvider.user?.id;
+      if (id == null) return false;
+
+      final docFood = FirebaseFirestore.instance.collection('foods').doc();
+
+      await FoodApi.uploadFile(
+          File(img), 'userfoods/${docFood.id}', namefood + Uuid().v1());
+      //print('----------okok2----------${docFood.id}------');
+      List<String> imgs =
+          await FoodApi.listAllImageUrls('userfoods/${docFood.id}/');
+      print('----------okok----------${imgs.first}');
+      img = imgs.first;
+
+      _saveStepsImages(steps, docFood);
+
+      //String name = namefood;
+      //String description = scriptfood;
+      String by = id;
+      //int serves = 2;
+      //String dateCreate = date;
+      //List<String> ingredients = ingre;
+      // List<Method> methods = steps;
+      String identify = docFood.id;
+      //String? origin = ori;
+      Food food = Food(namefood, scriptfood, by, serves, date, ingre, steps,
+          identify, ori, img, cookTime, null, null);
+
+      await docFood.set(food.toJson());
+    } on Exception catch (e) {
+      print(e);
+      return false;
+    }
+
+    return true;
+  }
+
+  static _saveStepsImages(
+      List<Method> steps, DocumentReference<Map<String, dynamic>> docFood) {
+    steps.forEach((step) {
+      step.image?.forEach((image) {
+        FoodApi.uploadFile(
+            File(image), 'userfoods/${docFood.id}/step${step.stepid}', Uuid().v1());
+      });
+    });
   }
 
   static Stream<List<Food>> readAllFoods() {
@@ -130,4 +191,5 @@ class FirestoreApi {
         .snapshots().map((event) => null)
 
   }*/
+
 }

@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:cooking/model/ingredient.dart';
+import 'package:cooking/model/method.dart';
 import 'package:cooking/resource/app_foods_api.dart';
+import 'package:cooking/resource/firestore_api.dart';
 import 'package:cooking/screen/notification/toast.dart';
 import 'package:cooking/widget/method.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,7 +12,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../model/food.dart';
+import '../../provider/google_sign_in.dart';
 import '../../widget/ingredient.dart';
+import '../dialog/alert_dialog.dart';
 
 class AddFoodPage extends StatefulWidget {
   const AddFoodPage({Key? key}) : super(key: key);
@@ -20,11 +25,39 @@ class AddFoodPage extends StatefulWidget {
 
 class _AddFoodPageState extends State<AddFoodPage> {
   File? image;
+  String? nameFood;
+  String? descriptionFood;
+  String? origin;
+  int serves = 2;
+  int cookTime = 75;
+  List<Ingredient> ingredients = <Ingredient>[];
+  List<Method> steps = <Method>[];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.white, foregroundColor: Colors.black,),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: OutlinedButton(
+              onPressed: () async {
+                if (await checkdata(context)) saveFood();
+              },
+              child: Text(
+                'Lưu Món',
+                style: TextStyle(color: Colors.black),
+              ),
+              style: OutlinedButton.styleFrom(
+                backgroundColor: Colors.black12,
+                side: BorderSide(color: Colors.black),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -38,13 +71,16 @@ class _AddFoodPageState extends State<AddFoodPage> {
                   children: [
                     image == null
                         ? const Image(
-                            image: AssetImage('assets/images/foodAvatar.png'),
-                            fit: BoxFit.cover,
-                          )
+                      image: AssetImage('assets/images/foodAvatar.png'),
+                      fit: BoxFit.cover,
+                    )
                         : Image.file(image!,
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height * .35,
-                            fit: BoxFit.cover),
+                        width: double.infinity,
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * .35,
+                        fit: BoxFit.cover),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20.0),
                       child: Row(
@@ -54,14 +90,14 @@ class _AddFoodPageState extends State<AddFoodPage> {
                             Container(
                                 decoration: const BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(20))
-                                ),
-                              padding: const EdgeInsets.all(8.0),
-
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                                padding: const EdgeInsets.all(8.0),
                                 child: const Text(
                                   '  Đăng hình đại diện món ăn',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 20),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
                                 ))
                           ]),
                     ),
@@ -101,13 +137,14 @@ class _AddFoodPageState extends State<AddFoodPage> {
         Container(
           margin: const EdgeInsets.only(top: 5),
           child: TextField(
+            onChanged: (value) => nameFood = value,
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.all(15),
               filled: true,
               hintText: 'Nhập tên món ăn',
               hintStyle:
-                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide.none,
@@ -119,13 +156,14 @@ class _AddFoodPageState extends State<AddFoodPage> {
           //constraints: ,
           margin: const EdgeInsets.only(top: 10),
           child: TextField(
+            onChanged: (value) => descriptionFood = value,
             keyboardType: TextInputType.multiline,
             minLines: 1,
             maxLines: 5,
             decoration: InputDecoration(
               filled: true,
               hintText:
-                  'Thêm mô tả về món này. Món này đến từ đâu? Ai đã truyền cảm hứng cho bạn, tại sao nó đặc biệt, bạn nấu món này cho ai?',
+              'Thêm mô tả về món này. Món này đến từ đâu? Ai đã truyền cảm hứng cho bạn, tại sao nó đặc biệt, bạn nấu món này cho ai?',
               contentPadding: const EdgeInsets.all(15),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -148,6 +186,7 @@ class _AddFoodPageState extends State<AddFoodPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 15.0),
                   child: TextField(
+                    onChanged: (value) => serves = int.parse(value),
                     maxLength: 1,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
@@ -186,6 +225,7 @@ class _AddFoodPageState extends State<AddFoodPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 10.0),
                     child: TextField(
+                      onChanged: (value) => cookTime = int.parse(value),
                       maxLength: 3,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -209,11 +249,11 @@ class _AddFoodPageState extends State<AddFoodPage> {
   }
 
   Widget ingredientSection() {
-    return Ingredients();
+    return Ingredients(ingredient: ingredients);
   }
 
   Widget methodSection() {
-    return Methods();
+    return Methods(steps: steps);
   }
 
   Future pickImage() async {
@@ -231,4 +271,47 @@ class _AddFoodPageState extends State<AddFoodPage> {
       showToast(context, e.toString());
     }
   }
+
+  void saveFood() {
+    List<String> ingre = <String>[];
+    ingredients.forEach((element) => ingre.add(element.content));
+    String img = image?.path??'';
+
+    FirestoreApi.createUserFood(
+        nameFood ?? '',
+        descriptionFood ?? '',
+        serves,
+        DateTime.now().toString(),
+        ingre,
+        steps,
+        origin,
+        img,
+        cookTime).then((value) => print(value));
+    /*   Food food = new Food(nameFood??'', descriptionFood??'',
+        userId, serves,  DateTime.now().toString(),
+        ingre, steps, Uuid().v1(), origin,img,cookTime,null,null);*/
+  }
+
+  Future<bool> checkdata(BuildContext context) async {
+    String? error;
+    if (image == null)
+      error = "Thêm ảnh đại diện món ăn điii";
+    else if (nameFood == null)
+      error = "đặt tên cho món ăn đi nào :v";
+    else if (descriptionFood == null)
+      error = "thêm mô tả cho món ăn nữa kìa.";
+    else if (ingredients.every((element) => element.content.isEmpty))
+      error = "u là tr. Thêm nguyên liệu zô";
+    else if (steps.every((element) => element.content.isEmpty))
+      error = 'thêm cách làm món ăn này nữa chớ bạn 🤤';
+
+    if (error != null) {
+      await showAlertDialog(context: context, content: error);
+      return false;
+    } else return true;
+
+  }
+
+
+
 }

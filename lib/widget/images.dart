@@ -7,7 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import '../screen/notification/toast.dart';
 
 class Images extends StatefulWidget {
-  const Images({Key? key}) : super(key: key);
+  Images({required this.image, Key? key}) : super(key: key);
+  List<String>? image;
 
   @override
   _ImagesState createState() => _ImagesState();
@@ -15,7 +16,6 @@ class Images extends StatefulWidget {
 
 class _ImagesState extends State<Images> {
   List<Widget> images = <Widget>[];
-  List<String> imagesPath = <String>[];
 
 
   @override
@@ -30,7 +30,7 @@ class _ImagesState extends State<Images> {
                 onSelected: (WhyFarther result) {
                   setState(() {
                     images.removeAt(index);
-                    imagesPath.removeAt(index);
+                    widget.image?.removeAt(index);
                   });
                 },
                 itemBuilder: (BuildContext context) =>
@@ -78,7 +78,7 @@ class _ImagesState extends State<Images> {
       final imagetemporary = File(image.path);
       setState(() {
         images.add(createImage(imagetemporary));
-        imagesPath.add(image.path);
+        widget.image?.add(image.path);
       });
     } on Exception catch (e) {
       print(e.toString());

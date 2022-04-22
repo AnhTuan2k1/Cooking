@@ -1,8 +1,11 @@
 import 'package:cooking/widget/images.dart';
 import 'package:flutter/material.dart';
 
+import '../model/method.dart';
+
 class Methods extends StatefulWidget {
-  const Methods({Key? key}) : super(key: key);
+  Methods({required this.steps, Key? key}) : super(key: key);
+  List<Method> steps;
 
   @override
   _MethodsState createState() => _MethodsState();
@@ -10,11 +13,13 @@ class Methods extends StatefulWidget {
 
 class _MethodsState extends State<Methods> {
   List<Widget> listStep = <Widget>[];
-  List<Widget> listStepsImages = <Widget>[];
+  //List<Widget> listStepsImages = <Widget>[];
 
   @override
   void initState() {
-    listStep.add(step(listStep.length));
+    widget.steps.add(Method((widget.steps.length + 1).toString(), '', null));
+    widget.steps[widget.steps.length - 1].image = <String>[];
+    listStep.add(step(widget.steps[listStep.length]));
   }
 
   @override
@@ -28,7 +33,11 @@ class _MethodsState extends State<Methods> {
         const SizedBox(height: 10.0),
         Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           GestureDetector(
-            onTap: () => setState(() => listStep.add(step(listStep.length))),
+            onTap: () => setState(() {
+              widget.steps.add(Method((widget.steps.length + 1).toString(), '', null));
+              widget.steps[widget.steps.length - 1].image = <String>[];
+              listStep.add(step(widget.steps[listStep.length]));
+            }),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -41,7 +50,10 @@ class _MethodsState extends State<Methods> {
             ),
           ),
           GestureDetector(
-            onTap: () => setState(() => listStep.removeLast()),
+            onTap: () => setState(() {
+              widget.steps.removeLast();
+              listStep.removeLast();
+            }),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -58,7 +70,7 @@ class _MethodsState extends State<Methods> {
     );
   }
 
-  Widget step(int index) {
+  Widget step(Method index) {
     return Column(
         children: [
       Padding(
@@ -68,7 +80,7 @@ class _MethodsState extends State<Methods> {
             Container(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                (index + 1).toString(),
+                index.stepid,
                 style: TextStyle(color: Colors.white),
               ),
               decoration: const BoxDecoration(
@@ -80,6 +92,7 @@ class _MethodsState extends State<Methods> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: TextField(
+                  onChanged: (value) => index.content = value,
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   decoration: InputDecoration(
@@ -97,7 +110,7 @@ class _MethodsState extends State<Methods> {
           ],
         ),
       ),
-      const SizedBox(height: 120, child: Images())
+      SizedBox(height: 120, child: Images(image: widget.steps[int.parse(index.stepid) - 1].image))
     ]);
   }
 }

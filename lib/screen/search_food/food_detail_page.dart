@@ -51,7 +51,7 @@ class FoodDetail extends StatelessWidget {
             )),
         ListTile(
             leading: CircleAvatar(backgroundColor: Colors.purpleAccent),
-            title: Text(food.by??"admini"),
+            title: Text(food.by ?? "admini"),
             subtitle: Row(children: [
               Icon(Icons.location_on_outlined),
               Text(food.origin ?? '...'),
@@ -126,8 +126,9 @@ class FoodDetail extends StatelessWidget {
                 children: [
                   Text(method[i].content),
                   const SizedBox(height: 10),
-                  getImagesDependOnDirectory(
-                      'appfoods/${food.identify}/step${food.method[i].stepid}'),
+                  getImagesDependOnDirectory(food.by == null
+                      ? 'appfoods/${food.identify}/step${food.method[i].stepid}'
+                      : 'userfoods/${food.identify}/step${food.method[i].stepid}'),
                   const SizedBox(height: 20),
                 ],
               ),
@@ -161,7 +162,6 @@ class FoodDetail extends StatelessWidget {
             // ignore: curly_braces_in_flow_control_structures
             return Center(child: Text(snapshot.error.toString()));
           else if (imageLinks != null) {
-
             return SizedBox(
               height: imageLinks.isEmpty ? 0.0 : 100.0,
               child: ListView.builder(
@@ -217,7 +217,7 @@ class FoodDetail extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => ChatPage(
-                                foodId: food.identify??'gfjqW3QMDKnua6MDHUjd',
+                                foodId: food.identify ?? 'gfjqW3QMDKnua6MDHUjd',
                                 user: types.User(
                                     id: user.id,
                                     lastName: user.displayName,
