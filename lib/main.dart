@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+
 import 'main_page.dart';
+import 'screen/login/login_with_gg_page.dart';
 
  main() async {
    WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
     return const MaterialApp(
-      debugShowCheckedModeBanner: false,
+      // debugShowCheckedModeBanner: false,
       home: MainPage(),
     );
   }
