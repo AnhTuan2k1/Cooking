@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
     return const MaterialApp(
-      // debugShowCheckedModeBanner: false,
-      home: MainPage(),
+      debugShowCheckedModeBanner: false,
+      home: LoginWithGGPage(),
     );
   }
 }
