@@ -2,6 +2,7 @@ import 'package:cooking/model/comment.dart';
 import 'package:cooking/model/method.dart';
 import 'package:cooking/resource/app_foods_api.dart';
 import 'package:cooking/screen/news/chat_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -21,7 +22,7 @@ class FoodDetail extends StatelessWidget {
         children: [
           FoodApi.getImage(food.image),
           Container(
-            padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+            padding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
             child: Column(
               children: [
                 infoSection(food),
@@ -43,34 +44,34 @@ class FoodDetail extends StatelessWidget {
     return Column(
       children: [
         Container(
-            padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
             alignment: Alignment.centerLeft,
             child: Text(
               food.name,
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             )),
         ListTile(
-            leading: CircleAvatar(backgroundColor: Colors.purpleAccent),
+            leading: const CircleAvatar(backgroundColor: Colors.purpleAccent),
             title: Text(food.by ?? "admini"),
             subtitle: Row(children: [
-              Icon(Icons.location_on_outlined),
+              const Icon(Icons.location_on_outlined),
               Text(food.origin ?? '...'),
             ])),
         const Divider(thickness: 1),
         Container(
-          padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Row(
                 children: [
-                  Icon(Icons.access_time),
+                  const Icon(Icons.access_time),
                   Text(' ${food.cookTime} phút')
                 ],
               ),
               Row(
                 children: [
-                  Icon(Icons.people_alt),
+                  const Icon(Icons.people_alt),
                   Text(' ${food.serves} người')
                 ],
               )
@@ -176,13 +177,14 @@ class FoodDetail extends StatelessWidget {
           }
 
           // ignore: curly_braces_in_flow_control_structures
-          else
+          else {
             return const Text("food api sos");
+          }
         });
   }
 
   MessageSection(List<Comment>? comments, BuildContext context) {
-    GoogleSignInAccount? user = GoogleProvider.user;
+    User user = FirebaseAuth.instance.currentUser!;
     if (user == null || food.by == null) return SizedBox();
 
     return SizedBox(
@@ -190,7 +192,7 @@ class FoodDetail extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            children: [
+            children: const [
               Icon(Icons.mode_comment_outlined),
               Text(
                 ' Bình luận',
@@ -201,14 +203,14 @@ class FoodDetail extends StatelessWidget {
           Expanded(
             child: Row(
               children: [
-                CircleAvatar(),
+                const CircleAvatar(),
                 Expanded(
                   child: Container(
                     padding: EdgeInsets.all(10),
                     margin: EdgeInsets.only(top: 5, bottom: 5, left: 5),
                     child: TextField(
                       readOnly: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(50))),
@@ -219,9 +221,9 @@ class FoodDetail extends StatelessWidget {
                             builder: (context) => ChatPage(
                                 foodId: food.identify ?? 'gfjqW3QMDKnua6MDHUjd',
                                 user: types.User(
-                                    id: user.id,
+                                    id: user.uid,
                                     lastName: user.displayName,
-                                    imageUrl: user.photoUrl))));
+                                    imageUrl: user.photoURL))));
                       },
                     ),
                   ),

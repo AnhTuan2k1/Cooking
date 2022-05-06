@@ -1,10 +1,8 @@
-import 'package:cooking/screen/notification/toast.dart';
+import 'package:cooking/provider/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:provider/provider.dart';
 import 'background_image.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cooking/provider/google_sign_in.dart';
-import 'package:cooking/main_page.dart';
 
 class LoginWithGGPage extends StatefulWidget {
   const LoginWithGGPage({ Key? key }) : super(key: key);
@@ -12,13 +10,10 @@ class LoginWithGGPage extends StatefulWidget {
   @override
   State<LoginWithGGPage> createState() => _LoginWithGGPageState();
 }
- 
+
 class _LoginWithGGPageState extends State<LoginWithGGPage> {
-
-
   @override
   Widget build(BuildContext context) {
-    GoogleSignInAccount? user = GoogleProvider.user;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -41,26 +36,15 @@ class _LoginWithGGPageState extends State<LoginWithGGPage> {
               fit: BoxFit.cover,
               image: AssetImage('assets/images/logo1.png'),
             ),
-            SizedBox(
-              height: 80,
-            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
               child: SizedBox(
                 height: 55,
                 width: double.infinity,
                 child: OutlinedButton(
-                  onPressed:  () async {
-                    await GoogleProvider.login()
-                    .then((value) =>{
-                  if(GoogleProvider.user != null)
-                  {
-                    Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MainPage())),
-                  }
-                  else showToast(context, 'Login failed')
-                });
-                setState(() {});
+                  onPressed: () {
+                    final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
+                    provider.googleLogin();
                   },
                   child: Text(
                     "Đăng nhập bằng Google",
@@ -112,7 +96,6 @@ class _LoginWithGGPageState extends State<LoginWithGGPage> {
       
     );
   }
-  
 }
 
 class OrDivider extends StatelessWidget {

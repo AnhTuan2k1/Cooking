@@ -6,6 +6,8 @@ import 'package:cooking/model/method.dart';
 import 'package:cooking/model/user.dart';
 import 'package:cooking/provider/google_sign_in.dart';
 import 'package:cooking/resource/app_foods_api.dart';
+import 'package:cooking/screen/notification/toast.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:cooking/screen/news/news_page.dart';
@@ -16,8 +18,7 @@ import '../model/food.dart';
 
 class FirestoreApi {
   static Future<bool> createFood() async {
-    String? id = GoogleProvider.user?.id;
-    if (id == null) return false;
+    String id = FirebaseAuth.instance.currentUser!.uid;
 
     final docFood = FirebaseFirestore.instance.collection('foods').doc();
 
@@ -49,8 +50,7 @@ class FirestoreApi {
       String img,
       int cookTime) async {
     try {
-      String? id = GoogleProvider.user?.id;
-      if (id == null) return false;
+      String id = FirebaseAuth.instance.currentUser!.uid;
 
       final docFood = FirebaseFirestore.instance.collection('foods').doc();
 
@@ -89,8 +89,8 @@ class FirestoreApi {
       List<Method> steps, DocumentReference<Map<String, dynamic>> docFood) {
     steps.forEach((step) {
       step.image?.forEach((image) {
-        FoodApi.uploadFile(
-            File(image), 'userfoods/${docFood.id}/step${step.stepid}', Uuid().v1());
+        FoodApi.uploadFile(File(image),
+            'userfoods/${docFood.id}/step${step.stepid}', Uuid().v1());
       });
     });
   }
@@ -192,4 +192,26 @@ class FirestoreApi {
 
   }*/
 
+  static Future createUser(
+      String userId, String? imageUrl, String? name) async {
+    await FirebaseFirestore.instance
+        .collection('user')
+        .doc(userId)
+        .set(User(userId, imageUrl, name).toJson())
+        .then((value) => print('create user ok - fireStore'),
+            onError: (error) =>
+                showToastAndroidAndiOS('fail to create user - fireStore'));
+  }
+
+  static Future<User> getUser(String userId) async {
+    final snapshot =
+        await FirebaseFirestore.instance.collection('user').doc(userId).get();
+    final User u;
+
+    snapshot.data() != null
+        ? u = User.fromJson(snapshot.data()!)
+        : u = User('no id', null, null);
+
+    return u;
+  }
 }
