@@ -15,6 +15,7 @@ class _LoginWithGGPageState extends State<LoginWithGGPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -31,12 +32,9 @@ class _LoginWithGGPageState extends State<LoginWithGGPage> {
               ),
             ),
             Image(
-               height: 90,
+               height: 200,
               fit: BoxFit.cover,
-              image: AssetImage('assets/images/logo.png'),
-            ),
-            SizedBox(
-              height: 80,
+              image: AssetImage('assets/images/logo1.png'),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
@@ -118,7 +116,8 @@ class OrDivider extends StatelessWidget {
               "Lựa chọn khác", 
                style: TextStyle(
                  color: Colors.black,
-                 fontWeight: FontWeight.w600,
+                 fontSize: 12 ,
+                 fontWeight: FontWeight.w400,
                  ),
             ),
           ),
