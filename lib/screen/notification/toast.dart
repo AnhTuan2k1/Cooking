@@ -33,7 +33,7 @@ showToast(BuildContext context, String msg) {
   );
 }
 
-showToastAndroidAndiOS(String msg){
+showToastAndroidAndiOS(String msg) {
   Fluttertoast.showToast(
       msg: msg,
       toastLength: Toast.LENGTH_SHORT,
@@ -41,6 +41,18 @@ showToastAndroidAndiOS(String msg){
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.red,
       textColor: Colors.white,
+      fontSize: 16.0
+  );
+}
+
+showToastAndroidandiOS(String msg, Color backColor, Color textColor){
+  Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: backColor,
+      textColor: textColor,
       fontSize: 16.0
   );
 }

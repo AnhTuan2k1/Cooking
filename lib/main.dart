@@ -24,8 +24,31 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => GoogleSignInProvider(),
       child:  MaterialApp(
-        // debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: false,
         home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+            if(snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if(snapshot.hasData){
+              return const MainPage();
+            }
+            else if(snapshot.hasError){
+              return const Center(child: Text(' auth stream user error'),);
+            }
+            else {
+              return const LoginWithGGPage();
+            }
+
+          },
+        ),
+      ),
+    );
+  }
+}
+
+/*
+StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting) {
@@ -42,7 +65,4 @@ class MyApp extends StatelessWidget {
 
             },
             ),
-      ),
-    );
-  }
-}
+ */

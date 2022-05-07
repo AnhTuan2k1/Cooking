@@ -273,6 +273,7 @@ class _AddFoodPageState extends State<AddFoodPage> {
   }
 
   void saveFood() {
+    buildShowDialogProgress(context);
     List<String> ingre = <String>[];
     ingredients.forEach((element) => ingre.add(element.content));
     String img = image?.path??'';
@@ -286,7 +287,17 @@ class _AddFoodPageState extends State<AddFoodPage> {
         steps,
         origin,
         img,
-        cookTime).then((value) => print(value));
+        cookTime)
+        .then((value) {
+      Navigator.of(context).pop();
+      print(value);
+      if(value) {
+        cleardata(context);
+      } else {
+        showToastAndroidAndiOS('error');
+      }
+    }
+    );
     /*   Food food = new Food(nameFood??'', descriptionFood??'',
         userId, serves,  DateTime.now().toString(),
         ingre, steps, Uuid().v1(), origin,img,cookTime,null,null);*/
@@ -312,6 +323,21 @@ class _AddFoodPageState extends State<AddFoodPage> {
 
   }
 
+   cleardata(BuildContext context) {
+     Navigator.pop(context);
+     showToastAndroidandiOS('Thêm món thành công 🤗', Colors.green, Colors.white);
+  }
+
+  buildShowDialogProgress(BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+  }
 
 
 }

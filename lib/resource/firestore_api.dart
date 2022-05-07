@@ -77,6 +77,7 @@ class FirestoreApi {
           identify, ori, img, cookTime, null, null);
 
       await docFood.set(food.toJson());
+      return true;
     } on Exception catch (e) {
       print(e);
       return false;
@@ -191,6 +192,39 @@ class FirestoreApi {
         .snapshots().map((event) => null)
 
   }*/
+
+  static Future createLike(String foodId, String userId) async {
+    await FirebaseFirestore.instance.collection('like').doc(foodId).set(
+        {userId: userId}).onError((e, _) => print("Error writing like: $e"));
+  }
+
+  static Future updateLike(
+      String foodId, List<String>? likes, Food food, String myUserUid) async {
+    food.likes ??= <String>[];
+    if (food.likes!.contains(myUserUid)) {
+      food.likes!.remove(myUserUid);
+    } else {
+      food.likes!.add(myUserUid);
+    }
+
+    await FirebaseFirestore.instance
+        .collection('foods')
+        .doc(foodId)
+        .set(food.toJson())
+        .onError((e, _) => print("Error writing updatelike: $e"));
+
+    /*.update({"likes": likes}).then(
+            (value) => print("$foodId likes successfully updated!"),
+        onError: (e) => print("Error updating likes $e"));*/
+  }
+
+  static Stream<List<String>> readAllLikes(String foodId) {
+    return FirebaseFirestore.instance
+        .collection('foods')
+        .doc(foodId)
+        .snapshots()
+        .map((snapshot) => snapshot.get('like').toList());
+  }
 
   static Future createUser(
       String userId, String? imageUrl, String? name) async {
