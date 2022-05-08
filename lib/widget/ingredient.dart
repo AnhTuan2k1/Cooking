@@ -108,6 +108,8 @@ class _IngredientsState extends State<Ingredients> {
             padding: const EdgeInsets.only(top: 10),
             child: TextField(
               onChanged: (value) => index.content = value,
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
               maxLength: 56,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(15),

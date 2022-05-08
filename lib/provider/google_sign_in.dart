@@ -49,13 +49,14 @@ class GoogleSignInProvider extends ChangeNotifier {
           if (userCredentical.additionalUserInfo!.isNewUser &&
               userCredentical.user != null) {
             FirestoreApi.createUser(
-                user.id,
+                userCredentical.user!.uid,
                 userCredentical.user!.photoURL,
                 userCredentical.user!.displayName);
           }
         }
       });
     } on Exception catch (e) {
+      print('----------${e.toString()}-------------');
       showToastAndroidAndiOS(e.toString());
     }
 
