@@ -1,4 +1,5 @@
 import 'package:cooking/provider/google_sign_in.dart';
+import 'package:cooking/provider/news_feed_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +22,37 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
-    return ChangeNotifierProvider(
-      create: (context) => GoogleSignInProvider(),
-      child:  MaterialApp(
-        // debugShowCheckedModeBanner: false,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => GoogleSignInProvider(),),
+        ChangeNotifierProvider(create: (context) => NewsFeedProvider(),)
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+            if(snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if(snapshot.hasData){
+              return const MainPage();
+            }
+            else if(snapshot.hasError){
+              return const Center(child: Text(' auth stream user error'),);
+            }
+            else {
+              return const LoginWithGGPage();
+            }
+
+          },
+        ),
+      ),
+    );
+  }
+}
+
+/*
+StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting) {
@@ -42,7 +69,4 @@ class MyApp extends StatelessWidget {
 
             },
             ),
-      ),
-    );
-  }
-}
+ */
