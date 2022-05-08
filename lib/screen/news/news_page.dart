@@ -308,6 +308,7 @@ class _NewsPageState extends State<NewsPage> {
                         return buildRowLike(food, myUser, snapshot);
                       } else {
                         return buildRowLike(food, myUser, snapshot);
+
                       }
                     }),
               ),
@@ -412,7 +413,6 @@ class _NewsPageState extends State<NewsPage> {
     }
     return Colors.black38;
   }
-
 }
 
 enum WhyFarther { harder, smarter, selfStarter, tradingCharter }
