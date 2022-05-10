@@ -1,5 +1,6 @@
 import 'package:cooking/model/comment.dart';
 import 'package:cooking/model/method.dart';
+import 'package:cooking/model/user.dart' as app;
 import 'package:cooking/resource/app_foods_api.dart';
 import 'package:cooking/screen/news/chat_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +11,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../model/food.dart';
 import '../../provider/google_sign_in.dart';
+import '../../resource/firestore_api.dart';
+
+String urlDragonAvatar =
+    'https://firebasestorage.googleapis.com/v0/b/cooking-afe47.appspot.com/o/others%2Fdragon-100.png?alt=media&token=0b205c77-90cf-45be-80aa-2a4820777d0b';
 
 class FoodDetail extends StatelessWidget {
   const FoodDetail({Key? key, required this.food}) : super(key: key);
@@ -20,7 +25,10 @@ class FoodDetail extends StatelessWidget {
     return Material(
       child: ListView(
         children: [
-          FoodApi.getImage(food.image),
+          Image.network(
+            food.image ?? FoodApi.defaulFoodUrl,
+            fit: BoxFit.cover,
+          ),
           Container(
             padding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
             child: Column(
@@ -41,6 +49,7 @@ class FoodDetail extends StatelessWidget {
   }
 
   infoSection(Food food) {
+
     return Column(
       children: [
         Container(
@@ -50,13 +59,35 @@ class FoodDetail extends StatelessWidget {
               food.name,
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             )),
-        ListTile(
+        food.by != null
+            ? FutureBuilder(
+            future: FirestoreApi.getUser(food.by!),
+            builder: (BuildContext context, AsyncSnapshot<app.User> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const SizedBox(
+                  height: 50,
+                );
+              } else if (snapshot.hasData) {
+                return buildInfo(snapshot.data!, food);
+              } else if (snapshot.hasError) {
+                print(snapshot.error.toString());
+                return const SizedBox(
+                  height: 50,
+                );
+              } else {
+                return const SizedBox(
+                  height: 50,
+                );
+              }
+            })
+            : ListTile(
             leading: const CircleAvatar(backgroundColor: Colors.purpleAccent),
             title: Text(food.by ?? "admini"),
             subtitle: Row(children: [
               const Icon(Icons.location_on_outlined),
               Text(food.origin ?? '...'),
             ])),
+
         const Divider(thickness: 1),
         Container(
           padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
@@ -79,6 +110,19 @@ class FoodDetail extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  buildInfo(app.User user, Food food) {
+    return ListTile(
+      leading: CircleAvatar(
+          backgroundImage: NetworkImage(user.imageUrl ?? urlDragonAvatar)),
+      title: Text(user.name ?? 'no name'),
+      subtitle:  Row(children: [
+        const Icon(Icons.location_on_outlined),
+        Text(food.origin ?? '...'),
+      ]),
+      trailing: Text(food.origin ?? ''),
     );
   }
 
@@ -203,7 +247,8 @@ class FoodDetail extends StatelessWidget {
           Expanded(
             child: Row(
               children: [
-                const CircleAvatar(),
+                CircleAvatar(
+                    backgroundImage: NetworkImage(user.photoURL ?? urlDragonAvatar)),
                 Expanded(
                   child: Container(
                     padding: EdgeInsets.all(10),

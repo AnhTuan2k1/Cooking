@@ -63,6 +63,7 @@ class _NewsPageState extends State<NewsPage> {
 
 import 'package:cooking/model/user.dart' as app;
 import 'package:cooking/provider/google_sign_in.dart';
+import 'package:cooking/provider/news_feed_provider.dart';
 import 'package:cooking/resource/firestore_api.dart';
 import 'package:cooking/screen/news/chat_page.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -89,26 +90,24 @@ class NewsPage extends StatefulWidget {
 
 class _NewsPageState extends State<NewsPage> {
   final controller = ScrollController();
-  List<Food> foods = <Food>[];
+  bool hasMore = true;
 
   @override
   void initState() {
     super.initState();
-    controller.addListener(() {
+    controller.addListener(() async{
       if(controller.position.maxScrollExtent == controller.offset){
-        fetch();
+        hasMore = await Provider.of<NewsFeedProvider>(context, listen: false).loadMoreFood();
       }
     });
+    Provider.of<NewsFeedProvider>(context, listen: false).removeAll();
+    Provider.of<NewsFeedProvider>(context, listen: false).loadMoreFood();
   }
 
   @override
   void dispose() {
     super.dispose();
     controller.dispose();
-  }
-
-  Future fetch() async{
-
   }
 
   @override
@@ -118,35 +117,25 @@ class _NewsPageState extends State<NewsPage> {
     final User user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       appBar: buildAppBar(user),
-      body: FutureBuilder<List<Food>>(
-          future: FirestoreApi.readAllFoodsFuture(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return const Center(child: Text("Something went wrong"));
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            if (snapshot.data != null) {
-              foods = snapshot.data!;
-              return ListView.builder(
-                 controller: controller,
-                  itemCount: foods.length + 1,
-                  itemBuilder: (context, index) {
-                    if(index < foods.length) {
-                      return buidfoods(foods.elementAt(index), user);
-                    }else {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 32),
-                        child: Center(child: CircularProgressIndicator(),),
-                      );
-                    }
-                  });
-            }
-            return const Center(child: Text("loading"));
-          }), // Column
+      body: Consumer<NewsFeedProvider>(
+        builder: (context, cart, child) {
+          return ListView.builder(
+              controller: controller,
+              itemCount: cart.foods.length + 1,
+              itemBuilder: (context, index) {
+                if(index < cart.foods.length) {
+                  return buidfoods(cart.foods.elementAt(index), user);
+                }else {
+                  return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 32),
+                        child: Center(child: hasMore
+                            ? const CircularProgressIndicator()
+                            : const Text('no more data')
+                        ));
+                }
+              });
+        },
+      ), // Column
     );
   }
 
@@ -211,18 +200,18 @@ class _NewsPageState extends State<NewsPage> {
           builder: (BuildContext context, AsyncSnapshot<app.User> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const SizedBox(
-                height: 50,
+                height: 72,
               );
             } else if (snapshot.hasData) {
               return buildInfo(snapshot.data!, food);
             } else if (snapshot.hasError) {
               print(snapshot.error.toString());
               return const SizedBox(
-                height: 50,
+                height: 72,
               );
             } else {
               return const SizedBox(
-                height: 50,
+                height: 72,
               );
             }
           });
@@ -330,6 +319,10 @@ class _NewsPageState extends State<NewsPage> {
                     width: 10,
                   )),
             ],
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 5.0, right: 5.0),
+            child: Divider(thickness: 1.0, color: Colors.black12,),
           ),
           // comment TextField
           Padding(
