@@ -63,6 +63,7 @@ class _NewsPageState extends State<NewsPage> {
 
 import 'package:cooking/model/user.dart' as app;
 import 'package:cooking/provider/google_sign_in.dart';
+import 'package:cooking/provider/news_feed_provider.dart';
 import 'package:cooking/resource/firestore_api.dart';
 import 'package:cooking/screen/news/chat_page.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -88,6 +89,27 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
+  final controller = ScrollController();
+  bool hasMore = true;
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() async{
+      if(controller.position.maxScrollExtent == controller.offset){
+        hasMore = await Provider.of<NewsFeedProvider>(context, listen: false).loadMoreFood();
+      }
+    });
+    Provider.of<NewsFeedProvider>(context, listen: false).removeAll();
+    Provider.of<NewsFeedProvider>(context, listen: false).loadMoreFood();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null)
@@ -95,26 +117,25 @@ class _NewsPageState extends State<NewsPage> {
     final User user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       appBar: buildAppBar(user),
-      body: FutureBuilder<List<Food>>(
-          future: FirestoreApi.readAllFoodsFuture(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return const Center(child: Text("Something went wrong"));
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            if (snapshot.data != null) {
-              return ListView.builder(
-                  itemCount: snapshot.data?.length,
-                  itemBuilder: (context, index) {
-                    return buidfoods(snapshot.data?.elementAt(index), user);
-                  });
-            }
-            return const Center(child: Text("loading"));
-          }), // Column
+      body: Consumer<NewsFeedProvider>(
+        builder: (context, cart, child) {
+          return ListView.builder(
+              controller: controller,
+              itemCount: cart.foods.length + 1,
+              itemBuilder: (context, index) {
+                if(index < cart.foods.length) {
+                  return buidfoods(cart.foods.elementAt(index), user);
+                }else {
+                  return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 32),
+                        child: Center(child: hasMore
+                            ? const CircularProgressIndicator()
+                            : const Text('no more data')
+                        ));
+                }
+              });
+        },
+      ), // Column
     );
   }
 
@@ -179,18 +200,18 @@ class _NewsPageState extends State<NewsPage> {
           builder: (BuildContext context, AsyncSnapshot<app.User> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const SizedBox(
-                height: 50,
+                height: 72,
               );
             } else if (snapshot.hasData) {
               return buildInfo(snapshot.data!, food);
             } else if (snapshot.hasError) {
               print(snapshot.error.toString());
               return const SizedBox(
-                height: 50,
+                height: 72,
               );
             } else {
               return const SizedBox(
-                height: 50,
+                height: 72,
               );
             }
           });
@@ -275,22 +296,22 @@ class _NewsPageState extends State<NewsPage> {
                       if (snapshot.hasData) {
                         return buildRowLike(food, myUser, snapshot);
                       } else {
-                        return buildRowLike(food, myUser, snapshot, snapshot.hasData);
+                        return buildRowLike(food, myUser, snapshot);
+
                       }
                     }),
               ),
               Expanded(
                 flex: 3,
-                child: Row(children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.mode_comment_rounded,
-                      color: Colors.black38,
-                    ),
-                  ),
-                  Text(food.comments?.length.toString() ?? '0'),
-                ]),
+                child: StreamBuilder<List<types.TextMessage>>(
+                    stream: FirestoreApi.readAllComments(food.identify ?? ''),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return buildRowComment(food, myUser, snapshot);
+                      } else {
+                        return buildRowComment(food, myUser, snapshot);
+                      }
+                    }),
               ),
               const Expanded(
                   flex: 2,
@@ -298,6 +319,10 @@ class _NewsPageState extends State<NewsPage> {
                     width: 10,
                   )),
             ],
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 5.0, right: 5.0),
+            child: Divider(thickness: 1.0, color: Colors.black12,),
           ),
           // comment TextField
           Padding(
@@ -339,7 +364,7 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   Row buildRowLike(
-      Food food, User myUser, AsyncSnapshot<List<String>> snapshot, [bool hasdata = true]) {
+      Food food, User myUser, AsyncSnapshot<List<String>> snapshot) {
     return Row(children: [
       const SizedBox(
         width: 20,
@@ -353,9 +378,25 @@ class _NewsPageState extends State<NewsPage> {
           },
           icon: Icon(Icons.thumb_up_alt_rounded,
               color: getColor(food.likes, myUser.uid))),
-      hasdata ?
-      Text(snapshot.data?.length.toString() ?? '0')
-      : Text(food.likes?.length.toString() ?? '0')
+      snapshot.hasData
+          ? Text(snapshot.data?.length.toString() ?? '0')
+          : Text(food.likes?.length.toString() ?? '0')
+    ]);
+  }
+
+  Row buildRowComment(
+      Food food, User myUser, AsyncSnapshot<List<types.TextMessage>> snapshot) {
+    return Row(children: [
+      IconButton(
+        onPressed: () {},
+        icon: const Icon(
+          Icons.mode_comment_rounded,
+          color: Colors.black38,
+        ),
+      ),
+      snapshot.hasData
+          ? Text(snapshot.data?.length.toString() ?? '0')
+          : Text(food.comments?.length.toString() ?? '0'),
     ]);
   }
 
