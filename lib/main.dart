@@ -9,10 +9,6 @@ import 'package:provider/provider.dart';
 import 'main_page.dart';
 import 'screen/login/login_with_gg_page.dart';
 
-import 'screen/add_food/account_page.dart';
-import 'screen/search_food/search_food_page.dart';
-import 'screen/search_food/food_detail_page.dart';
-import 'screen/news/chat_page.dart';
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -25,38 +21,34 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
-    // return MultiProvider(
-    //   providers: [
-    //     ChangeNotifierProvider(
-    //       create: (context) => GoogleSignInProvider(),
-    //     ),
-    //     ChangeNotifierProvider(
-    //       create: (context) => NewsFeedProvider(),
-    //     )
-    //   ],
-    //   child: MaterialApp(
-    //     debugShowCheckedModeBanner: false,
-    //     home: StreamBuilder(
-    //       stream: FirebaseAuth.instance.authStateChanges(),
-    //       builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-    //         if (snapshot.connectionState == ConnectionState.waiting) {
-    //           return const Center(child: CircularProgressIndicator());
-    //         } else if (snapshot.hasData) {
-    //           return const MainPage();
-    //         } else if (snapshot.hasError) {
-    //           return const Center(
-    //             child: Text(' auth stream user error'),
-    //           );
-    //         } else {
-    //           return const LoginWithGGPage();
-    //         }
-    //       },
-    //     ),
-    //   ),
-    // );
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: AccountPage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => GoogleSignInProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => NewsFeedProvider(),
+        )
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasData) {
+              return const MainPage();
+            } else if (snapshot.hasError) {
+              return const Center(
+                child: Text(' auth stream user error'),
+              );
+            } else {
+              return const LoginWithGGPage();
+            }
+          },
+        ),
+      ),
     );
   }
 }
