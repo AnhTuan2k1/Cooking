@@ -31,6 +31,8 @@ class SearchFoodPage extends StatelessWidget {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
+  List<Food>? foodss;
+
   CustomSearchDelegate()
       : super(
             keyboardType: TextInputType.text,
@@ -48,6 +50,7 @@ class CustomSearchDelegate extends SearchDelegate {
           icon: const Icon(Icons.clear))
     ];
   }
+
 
   @override
   Widget? buildLeading(BuildContext context) {
@@ -102,7 +105,24 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Text("hello");
+    return FutureBuilder<List<Food>>(
+      future: FoodApi.getSearchFoodsLocally(query.split(' '), context),
+      builder: (context, snapshot) {
+        final List<Food>? foods = snapshot.data;
+
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return Center(child: CircularProgressIndicator());
+          default:
+            if (snapshot.hasError)
+              return Center(child: Text(snapshot.error.toString()));
+            else if (foods != null)
+              return buildSearchFoods(foods);
+            else
+              return Text("null");
+        }
+      },
+    );
   }
 
   Widget buildSearchFoods(List<Food> foods) {
@@ -111,7 +131,6 @@ class CustomSearchDelegate extends SearchDelegate {
       itemCount: foods.length,
       itemBuilder: (context, index) {
         final food = foods[index];
-
         return GestureDetector(
           child: Card(
             margin: EdgeInsets.only(top: 20, right: 10, left: 10),

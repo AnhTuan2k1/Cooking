@@ -52,7 +52,7 @@ class FoodApi {
     }).toList();*/
 
     // không phân biệt dấu
-    return body.map((e) => Food.fromJson(e)).where((element) {
+/*    return body.map((e) => Food.fromJson(e)).where((element) {
       return keys.every((key) {
         return key == '' ||
             element.name
@@ -61,6 +61,15 @@ class FoodApi {
             element.ingredients.any((ingredient) => ingredient
                 .split(' ')
                 .any((element) => TiengViet.parse(element).toLowerCase() == TiengViet.parse(key).toLowerCase()));
+      });
+    }).toList();*/
+
+    return body.map((e) => Food.fromJson(e)).where((element) {
+      return keys.every((key) {
+        return key == '' ||
+            element.name
+                .split(' ')
+                .any((element) => element.toLowerCase() == key.toLowerCase());
       });
     }).toList();
   }
