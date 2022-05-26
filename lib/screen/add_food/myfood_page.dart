@@ -1,7 +1,10 @@
 import 'package:cooking/resource/firestore_api.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../model/food.dart';
+import '../../provider/myfood_provider.dart';
 import '../../resource/app_foods_api.dart';
 import '../search_food/food_detail_page.dart';
 
@@ -10,6 +13,10 @@ class MyFoodPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(FirebaseAuth.instance.currentUser != null){
+      String id = FirebaseAuth.instance.currentUser!.uid;
+      Provider.of<MyFoodProvider>(context, listen: false).loadFood(id);
+    }
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(children: [
@@ -17,6 +24,11 @@ class MyFoodPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextField(
+                onSubmitted: (keys){
+                  if(FirebaseAuth.instance.currentUser == null) return;
+                  String id = FirebaseAuth.instance.currentUser!.uid;
+                  Provider.of<MyFoodProvider>(context, listen: false).loadFood(id, keys: keys);
+                },
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.search),
                   contentPadding: const EdgeInsets.all(15),
@@ -33,20 +45,9 @@ class MyFoodPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          FutureBuilder<List<Food>>(
-            future: FirestoreApi.readMyFoodsFuture(),
-            builder: (BuildContext context, AsyncSnapshot<List<Food>> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasData) {
-                return buildGridfood(snapshot.data!, context);
-              } else if (snapshot.hasError) {
-                return const Center(
-                  child: Text(' auth stream user error'),
-                );
-              } else {
-                return buildNoneFood();
-              }
+          Consumer<MyFoodProvider>(
+            builder: (context, cart, child) {
+              return buildGridfood(cart.foods, context);
             },
           )
         ]),

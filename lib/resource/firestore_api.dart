@@ -120,6 +120,49 @@ class FirestoreApi {
     return snapshot.docs.map((doc) => Food.fromJson(doc.data())).toList();
   }
 
+  static Future<List<Food>> readFoodsByUserFuture(String userId,
+      {String keys = ''}) async {
+    final docFoods = FirebaseFirestore.instance
+        .collection('foods')
+        .where('by', isEqualTo: userId);
+
+    final snapshot = await docFoods.get();
+
+    return snapshot.docs
+        .map((doc) => Food.fromJson(doc.data()))
+        .where((food) => food.name.contains(keys))
+        .toList();
+  }
+
+  static Future<List<Food>> readSaveFoodsByUserFuture(String userId,
+      {String keys = ''}) async {
+    User user = await getUser(userId);
+    if(user.savefood == null) return <Food>[];
+    else if(user.savefood?.isEmpty??false) return <Food>[];
+
+    final docFoods = FirebaseFirestore.instance
+        .collection('foods')
+        .where('identify', whereIn: user.savefood);
+
+    final snapshot = await docFoods.get();
+
+    return snapshot.docs
+        .map((doc) => Food.fromJson(doc.data()))
+        .where((food) => food.name.contains(keys))
+        .toList();
+  }
+
+  static Future<List<Food>> readSearchFood({String keys = ''}) async{
+    final docFoods = FirebaseFirestore.instance
+        .collection('foods');
+
+    final snapshot = await docFoods.get();
+    return snapshot.docs
+        .map((doc) => Food.fromJson(doc.data()))
+        .where((food) => food.name.contains(keys))
+        .toList();
+  }
+
   static Future<List<Food>> readOptionFoodsFuture(
       {int limit = 2,
       required List<String> notIncludeFoods,
@@ -340,8 +383,8 @@ class FirestoreApi {
     user.savefood == null
         ? user.savefood = <String>[foodId]
         : user.savefood!.contains(foodId)
-        ? user.savefood!.remove(foodId)
-        : user.savefood!.add(foodId);
+            ? user.savefood!.remove(foodId)
+            : user.savefood!.add(foodId);
 
     await FirebaseFirestore.instance
         .collection('user')

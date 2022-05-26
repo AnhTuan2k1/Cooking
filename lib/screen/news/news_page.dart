@@ -63,8 +63,10 @@ class _NewsPageState extends State<NewsPage> {
 
 import 'package:cooking/model/user.dart' as app;
 import 'package:cooking/provider/google_sign_in.dart';
+import 'package:cooking/provider/myfood_provider.dart';
 import 'package:cooking/provider/news_feed_provider.dart';
 import 'package:cooking/resource/firestore_api.dart';
+import 'package:cooking/screen/add_food/others_account_page.dart';
 import 'package:cooking/screen/news/chat_page.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:firebase_auth/firebase_auth.dart';
@@ -116,7 +118,7 @@ class _NewsPageState extends State<NewsPage> {
       print('---------------null----------');
     final User user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
-      // appBar: buildAppBar(user),
+      appBar: buildAppBar(user),
       body: Consumer<NewsFeedProvider>(
         builder: (context, cart, child) {
           return ListView.builder(
@@ -156,6 +158,26 @@ class _NewsPageState extends State<NewsPage> {
 
   AppBar buildAppBar(User user) {
     return AppBar(
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black87,
+      title: TextField(
+        onSubmitted: (keys){
+          Provider.of<NewsFeedProvider>(context, listen: false).loadSearchFood(keys: keys);
+        },
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.search),
+          contentPadding: const EdgeInsets.all(15),
+          //filled: true,
+          hintText: 'Nhập để tìm món ',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
+        ),
+      ),
+    );
+
+      AppBar(
       backgroundColor: Colors.white,
       leading: Container(
           margin: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 5.0),
@@ -231,54 +253,42 @@ class _NewsPageState extends State<NewsPage> {
       time = (duration.inDays / 30).toString() + 'months ago';
     }
 
-    return Row(
-      children:[
-        Expanded(
-          child: ListTile(
-            leading: CircleAvatar(
-                backgroundImage: NetworkImage(user.imageUrl ?? urlDragonAvatar)),
-            title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(user.name ?? 'no name'),
-              GestureDetector(
+    return Row(children: [
+      Expanded(
+        child: ListTile(
+          leading: CircleAvatar(
+              backgroundImage: NetworkImage(user.imageUrl ?? urlDragonAvatar)),
+          title:
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            GestureDetector(
                 onTap: () {
-                  // print('aksdfjhkasjdfhkasdfh----------------------');
-                  FirestoreApi.updateFollowing(user.id);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => OtherAccountPage(user: user)));
                 },
-                child: StreamBuilder<bool>(
-                    stream: FirestoreApi.isFollowing(food.by ?? 'ATg1tPKKaaRJtbVu13Bm3Npe9AG3'),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        // print('-------------folow1----------');
-                        return buildFollow(snapshot.data ?? true);
-                      } else {
-                        // print('-------------folow2----------');
-                        return const Text(' Theo dõi');
-                      }
-                    }),
-              ),
-            ]),
-            subtitle: Text(time),
-            trailing: Text(food.origin ?? ''),
-          ),
+                child: Text(user.name ?? 'no name')),
+          ]),
+          subtitle: Text(time),
+          trailing: Text(food.origin ?? ''),
         ),
-        GestureDetector(
-          onTap: () {
-            FirestoreApi.updateSaveFood(food.identify??'g546qVbGhHFOtyjts1rV');
-          },
-          child: StreamBuilder<bool>(
-              stream: FirestoreApi.isSaveFood(food.identify ?? 'tR5n6UJEPmUQtpRNXpUCGAmsyxy1'),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  // print('-------------folow1----------');
-                  return buildSaveFood(snapshot.data ?? true);
-                } else {
-                  // print('-------------folow2----------');
-                  return const Text(' error');
-                }
-              }),
-        ),
-      ]
-    );
+      ),
+      GestureDetector(
+        onTap: () {
+          FirestoreApi.updateSaveFood(food.identify ?? 'g546qVbGhHFOtyjts1rV');
+        },
+        child: StreamBuilder<bool>(
+            stream: FirestoreApi.isSaveFood(
+                food.identify ?? 'tR5n6UJEPmUQtpRNXpUCGAmsyxy1'),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                // print('-------------folow1----------');
+                return buildSaveFood(snapshot.data ?? true);
+              } else {
+                 print('-------------Show saveFood error----------');
+                return buildSaveFood(snapshot.data ?? false);
+              }
+            }),
+      ),
+    ]);
   }
 
   Widget buildFollow(bool isfollow) {
@@ -288,11 +298,10 @@ class _NewsPageState extends State<NewsPage> {
         Icons.stars_sharp,
         color: color,
       ),
-      Text( isfollow
-          ?" Đang theo dõi"
-          :" Theo dõi",
+      Text(
+        isfollow ? " Đang theo dõi" : " Theo dõi",
         style:
-        TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: color),
+            TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: color),
       )
     ]);
   }

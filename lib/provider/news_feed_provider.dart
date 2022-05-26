@@ -21,6 +21,12 @@ class NewsFeedProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void loadSearchFood({String keys = ''}) async{
+    final fo = await FirestoreApi.readSearchFood(keys: keys);
+    _foods.clear();
+    addAll(fo);
+  }
+
   Future<bool> loadMoreFood() async {
     print('sss'); int limit = 3;
     User user = await FirestoreApi.getUser(FirebaseAuth.instance.currentUser!.uid);
