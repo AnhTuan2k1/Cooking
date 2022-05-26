@@ -104,12 +104,13 @@ class SaveFoodPage extends StatelessWidget {
     return SingleChildScrollView(
       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
       child: Column(
-        children: const [
-          Text(
+        children: [
+          Image.asset('assets/images/cereal.jpg'),
+          const Text(
             'Chưa có món nào được lưu 🙄',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          Text(
+          const Text(
             'Bạn vẫn chưa lưu món nào. Hãy tìm món bạn yêu thích và lưu món đó. Bạn sẽ thấy món ấy ở đây nhé 😘',
           )
         ],

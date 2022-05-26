@@ -103,12 +103,13 @@ class MyFoodPage extends StatelessWidget {
     return SingleChildScrollView(
       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
       child: Column(
-        children: const [
-          Text(
+        children: [
+          Image.asset('assets/images/cereal.jpg'),
+          const Text(
             'Chưa có món nào hết 🙄',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          Text(
+          const Text(
             'Bạn vẫn chưa đăng món nào. Hãy chia sẻ món bạn yêu thích và ban sẽ thấy món ấy ở đây nhé 😘',
           )
         ],

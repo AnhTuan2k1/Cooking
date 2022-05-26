@@ -22,28 +22,56 @@ class FoodDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: ListView(
-        children: [
-          Image.network(
-            food.image ?? FoodApi.defaulFoodUrl,
-            fit: BoxFit.cover,
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
-            child: Column(
-              children: [
-                infoSection(food),
-                const Divider(thickness: 1),
-                ingredientSection(food.ingredients),
-                const Divider(thickness: 1),
-                methodSection(food.method),
-                const Divider(thickness: 1),
-                MessageSection(food.comments, context),
-              ],
-            ),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: Text(food.name),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black87,
+        actions: [
+          GestureDetector(
+            onTap: () {
+              FirestoreApi.updateSaveFood(food.identify ?? 'g546qVbGhHFOtyjts1rV');
+            },
+            child: StreamBuilder<bool>(
+                stream: FirestoreApi.isSaveFood(
+                    food.identify ?? 'tR5n6UJEPmUQtpRNXpUCGAmsyxy1'),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    // print('-------------folow1----------');
+                    return buildSaveFood(snapshot.data ?? true);
+                  } else {
+                    print('-------------Show saveFood error----------');
+                    return buildSaveFood(snapshot.data ?? false);
+                  }
+                }),
           )
         ],
+      ),
+      body: Material(
+        child: ListView(
+          children: [
+            Image.network(
+              food.image ?? FoodApi.defaulFoodUrl,
+              fit: BoxFit.cover,
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
+              child: Column(
+                children: [
+                  infoSection(food),
+                  const Divider(thickness: 1),
+                  ingredientSection(food.ingredients),
+                  const Divider(thickness: 1),
+                  methodSection(food.method),
+                  const Divider(thickness: 1),
+                  MessageSection(food.comments, context),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -258,7 +286,7 @@ class FoodDetail extends StatelessWidget {
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius:
-                                BorderRadius.all(Radius.circular(50))),
+                            BorderRadius.all(Radius.circular(50))),
                         labelText: ' Thêm bình luận',
                       ),
                       onTap: () {
@@ -277,6 +305,21 @@ class FoodDetail extends StatelessWidget {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Widget buildSaveFood(bool isSave) {
+    Color color = isSave ? Colors.lightGreen : Colors.black45;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15.0, right: 15.0),
+      child: Tooltip(
+        message: 'save this food',
+        child: Icon(
+          Icons.bookmark,
+          color: color,
+          size: 35,
+        ),
       ),
     );
   }

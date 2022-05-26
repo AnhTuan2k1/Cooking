@@ -1,9 +1,8 @@
-import 'package:cooking/screen/search_food/food_detail_page.dart';
+
+import 'package:cooking/screen/search_food/search_delegate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/food.dart';
-import '../../resource/app_foods_api.dart';
 
 class SearchFoodPage extends StatelessWidget {
   const SearchFoodPage({Key? key}) : super(key: key);
@@ -23,152 +22,106 @@ class SearchFoodPage extends StatelessWidget {
           },
         ),
       ),
-      body: const Center(
-        child: Text("Search Page"),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+        child: Column(
+          children:[
+            Container(
+              padding: const EdgeInsets.only(left: 5.0, top: 10.0),
+              child: const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Món gợi ý', style: TextStyle(fontSize: 20),)),
+            ),
+            Table(
+              children: [
+                TableRow(
+                    children: [
+                      buildSuggestionFood(
+                          context: context, path: 'assets/images/steak.png', name: "Bò"),
+                      buildSuggestionFood(
+                          context: context, path: 'assets/images/chicken.jpg', name: "Gà"),
+                    ]
+                ),
+                TableRow(
+                    children: [
+                      buildSuggestionFood(
+                          context: context, path: 'assets/images/fish.jpg', name: "Cá"),
+                      buildSuggestionFood(
+                          context: context, path: 'assets/images/shrimp.jpg', name: "Tôm"),
+                    ]
+                ),
+                TableRow(
+                    children: [
+                      buildSuggestionFood(
+                          context: context, path: 'assets/images/squid.jpg', name: "Mực"),
+                      buildSuggestionFood(
+                          context: context, path: 'assets/images/duck.jpg', name: "Vịt"),
+                    ]
+                ),
+                TableRow(
+                    children: [
+                      buildSuggestionFood(
+                          context: context, path: 'assets/images/pork.jpg', name: "Heo"),
+                      buildSuggestionFood(
+                          context: context, path: 'assets/images/noodle.jpg', name: "Phở"),
+                    ]
+                ),
+              ],
+            ),
+          ]
+        ),
       ),
     );
   }
-}
 
-class CustomSearchDelegate extends SearchDelegate {
-  List<Food>? foodss;
-
-  CustomSearchDelegate()
-      : super(
-            keyboardType: TextInputType.text,
-            searchFieldLabel: "Nhập tên món ăn hoặc nguyên liệu",
-            searchFieldStyle: TextStyle(color: Colors.black26, fontSize: 15));
-  List<String> searchTerms = <String>["sdf", "abc", "lkj"];
-
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-          onPressed: () {
-            query = '';
-          },
-          icon: const Icon(Icons.clear))
-    ];
-  }
-
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return null;
-    IconButton(
-        onPressed: () {
-          close(context, null);
-        },
-        icon: Icon(Icons.arrow_back));
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-/*    List<String> matchQuery = [];
-    for (var food in searchTerms) {
-      if (food.toLowerCase().contains((query.toLowerCase()))) {
-        matchQuery.add(food);
-      }
-    }
-    ListView.builder(
-        itemCount: matchQuery.length,
-        itemBuilder: (context, index) {
-          var result = matchQuery[index];
-          return Card(
-            child: ListTile(
-              title: Text(result),
-            ),
-          );
-        });*/
-
-    List<String> querys = query.split(' ');
-
-    return FutureBuilder<List<Food>>(
-      future: FoodApi.getSearchFoodsLocally(querys, context),
-      builder: (context, snapshot) {
-        final List<Food>? foods = snapshot.data;
-
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            return Center(child: CircularProgressIndicator());
-          default:
-            if (snapshot.hasError)
-              return Center(child: Text(snapshot.error.toString()));
-            else if (foods != null)
-              return buildSearchFoods(foods);
-            else
-              return Text("null");
-        }
+  Widget buildSuggestionFood(
+      {required BuildContext context,
+      required String path,
+      required String name}) {
+    double roundborder = 10.0;
+    return GestureDetector(
+      onTap: () {
+        showSearch(context: context, delegate: CustomSearchDelegate(), query: name);
       },
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return FutureBuilder<List<Food>>(
-      future: FoodApi.getSearchFoodsLocally(query.split(' '), context),
-      builder: (context, snapshot) {
-        final List<Food>? foods = snapshot.data;
-
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            return Center(child: CircularProgressIndicator());
-          default:
-            if (snapshot.hasError)
-              return Center(child: Text(snapshot.error.toString()));
-            else if (foods != null)
-              return buildSearchFoods(foods);
-            else
-              return Text("null");
-        }
-      },
-    );
-  }
-
-  Widget buildSearchFoods(List<Food> foods) {
-    return ListView.builder(
-      physics: BouncingScrollPhysics(),
-      itemCount: foods.length,
-      itemBuilder: (context, index) {
-        final food = foods[index];
-        return GestureDetector(
-          child: Card(
-            margin: EdgeInsets.only(top: 20, right: 10, left: 10),
-            elevation: 2,
-            child: Row(
-              children: [
-                SizedBox(
-                    height: 150,
-                    width: 150,
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      child: Image.network(
-                        food.image ?? FoodApi.defaulFoodUrl,
-                        fit: BoxFit.cover,
-                      ),
-                    )),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.fromLTRB(10, 0, 5, 10),
-                        child: Text(food.name,
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ),
-                      Text(food.description),
-                    ],
-                  ),
-                )
-              ],
-            ),
+      child: Container(
+        width: MediaQuery.of(context).size.width/2.2,
+        height: MediaQuery.of(context).size.width/2.2,
+        //padding: const EdgeInsets.all(5.0),
+        child: Card(
+          elevation: 3.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(roundborder),
           ),
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => FoodDetail(food: food)));
-          },
-        );
-      },
+          child: Stack(children: [
+            Positioned(
+              left: 0.0,
+              right: 0.0,
+              top: 0.0,
+              bottom: 0.0,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(roundborder),
+                child: Image(
+                  fit: BoxFit.fill,
+                  image: AssetImage(path),
+                ),
+              ),
+            ),
+            Align(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  name,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.white),
+                ),
+              ),
+              alignment: Alignment.bottomLeft,
+            ),
+          ]),
+        ),
+      ),
     );
   }
 }
