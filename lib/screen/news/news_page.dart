@@ -63,8 +63,10 @@ class _NewsPageState extends State<NewsPage> {
 
 import 'package:cooking/model/user.dart' as app;
 import 'package:cooking/provider/google_sign_in.dart';
+import 'package:cooking/provider/myfood_provider.dart';
 import 'package:cooking/provider/news_feed_provider.dart';
 import 'package:cooking/resource/firestore_api.dart';
+import 'package:cooking/screen/add_food/others_account_page.dart';
 import 'package:cooking/screen/news/chat_page.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:firebase_auth/firebase_auth.dart';
@@ -95,12 +97,12 @@ class _NewsPageState extends State<NewsPage> {
   @override
   void initState() {
     super.initState();
-    controller.addListener(() async{
-      if(controller.position.maxScrollExtent == controller.offset){
-        hasMore = await Provider.of<NewsFeedProvider>(context, listen: false).loadMoreFood();
+    controller.addListener(() async {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        hasMore = await Provider.of<NewsFeedProvider>(context, listen: false)
+            .loadMoreFood();
       }
     });
-    Provider.of<NewsFeedProvider>(context, listen: false).removeAll();
     Provider.of<NewsFeedProvider>(context, listen: false).loadMoreFood();
   }
 
@@ -123,15 +125,15 @@ class _NewsPageState extends State<NewsPage> {
               controller: controller,
               itemCount: cart.foods.length + 1,
               itemBuilder: (context, index) {
-                if(index < cart.foods.length) {
+                if (index < cart.foods.length) {
                   return buidfoods(cart.foods.elementAt(index), user);
-                }else {
+                } else {
                   return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 32),
-                        child: Center(child: hasMore
-                            ? const CircularProgressIndicator()
-                            : const Text('no more data')
-                        ));
+                      padding: const EdgeInsets.symmetric(vertical: 32),
+                      child: Center(
+                          child: hasMore
+                              ? const CircularProgressIndicator()
+                              : const Text('no more data')));
                 }
               });
         },
@@ -141,20 +143,14 @@ class _NewsPageState extends State<NewsPage> {
 
   Widget buidfoods(Food? food, User myUser) {
     if (food != null) {
-      return GestureDetector(
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => FoodDetail(food: food)));
-        },
-        child: Card(
-          margin: const EdgeInsets.only(top: 20),
-          elevation: 2,
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            foodInfoSection(food),
-            mainSection(food),
-            interactSection(food, myUser),
-          ]),
-        ),
+      return Card(
+        margin: const EdgeInsets.only(top: 20),
+        elevation: 2,
+        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+          foodInfoSection(food),
+          mainSection(food),
+          interactSection(food, myUser),
+        ]),
       );
     } else
       return Text('h');
@@ -162,6 +158,26 @@ class _NewsPageState extends State<NewsPage> {
 
   AppBar buildAppBar(User user) {
     return AppBar(
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black87,
+      title: TextField(
+        onSubmitted: (keys){
+          Provider.of<NewsFeedProvider>(context, listen: false).loadSearchFood(keys: keys);
+        },
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.search),
+          contentPadding: const EdgeInsets.all(15),
+          //filled: true,
+          hintText: 'Nhập để tìm món ',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
+        ),
+      ),
+    );
+
+      AppBar(
       backgroundColor: Colors.white,
       leading: Container(
           margin: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 5.0),
@@ -237,47 +253,112 @@ class _NewsPageState extends State<NewsPage> {
       time = (duration.inDays / 30).toString() + 'months ago';
     }
 
-    return ListTile(
-      leading: CircleAvatar(
-          backgroundImage: NetworkImage(user.imageUrl ?? urlDragonAvatar)),
-      title: Text(user.name ?? 'no name'),
-      subtitle: Text(time),
-      trailing: Text(food.origin ?? ''),
+    return Row(children: [
+      Expanded(
+        child: ListTile(
+          leading: CircleAvatar(
+              backgroundImage: NetworkImage(user.imageUrl ?? urlDragonAvatar)),
+          title:
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => OtherAccountPage(user: user)));
+                },
+                child: Text(user.name ?? 'no name')),
+          ]),
+          subtitle: Text(time),
+          trailing: Text(food.origin ?? ''),
+        ),
+      ),
+      GestureDetector(
+        onTap: () {
+          FirestoreApi.updateSaveFood(food.identify ?? 'g546qVbGhHFOtyjts1rV');
+        },
+        child: StreamBuilder<bool>(
+            stream: FirestoreApi.isSaveFood(
+                food.identify ?? 'tR5n6UJEPmUQtpRNXpUCGAmsyxy1'),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                // print('-------------folow1----------');
+                return buildSaveFood(snapshot.data ?? true);
+              } else {
+                 print('-------------Show saveFood error----------');
+                return buildSaveFood(snapshot.data ?? false);
+              }
+            }),
+      ),
+    ]);
+  }
+
+  Widget buildFollow(bool isfollow) {
+    Color color = isfollow ? Colors.lightGreen : Colors.black45;
+    return Row(children: [
+      Icon(
+        Icons.stars_sharp,
+        color: color,
+      ),
+      Text(
+        isfollow ? " Đang theo dõi" : " Theo dõi",
+        style:
+            TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: color),
+      )
+    ]);
+  }
+
+  Widget buildSaveFood(bool isSave) {
+    Color color = isSave ? Colors.lightGreen : Colors.black45;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15.0, right: 15.0),
+      child: Tooltip(
+        message: 'save this food',
+        child: Icon(
+          Icons.bookmark,
+          color: color,
+        ),
+      ),
     );
   }
 
   Widget mainSection(Food food) {
-    return Padding(
-        padding: const EdgeInsets.only(left: 15.0, right: 5.0),
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              food.name,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => FoodDetail(food: food)));
+      },
+      child: Padding(
+          padding: const EdgeInsets.only(left: 15.0, right: 5.0),
+          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                food.name,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              food.description,
-              style: const TextStyle(fontSize: 17),
+            const SizedBox(
+              height: 5,
             ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          SizedBox(
-              height: MediaQuery.of(context).size.width * 0.7,
-              width: double.infinity,
-              child: Image.network(
-                food.image ?? FoodApi.defaulFoodUrl,
-                fit: BoxFit.fill,
-              )),
-        ]));
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                food.description,
+                style: const TextStyle(fontSize: 17),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            SizedBox(
+                height: MediaQuery.of(context).size.width * 0.7,
+                width: double.infinity,
+                child: Image.network(
+                  food.image ?? FoodApi.defaulFoodUrl,
+                  fit: BoxFit.fill,
+                )),
+          ])),
+    );
   }
 
   Widget interactSection(Food food, User myUser) {
@@ -290,14 +371,12 @@ class _NewsPageState extends State<NewsPage> {
               Expanded(
                 flex: 3,
                 child: StreamBuilder<List<String>>(
-                    initialData: food.likes,
                     stream: FirestoreApi.readAllLikes(food.identify ?? ''),
-                    builder: (context, AsyncSnapshot<List<String>> snapshot) {
+                    builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return buildRowLike(food, myUser, snapshot);
                       } else {
                         return buildRowLike(food, myUser, snapshot);
-
                       }
                     }),
               ),
@@ -322,7 +401,10 @@ class _NewsPageState extends State<NewsPage> {
           ),
           const Padding(
             padding: EdgeInsets.only(left: 5.0, right: 5.0),
-            child: Divider(thickness: 1.0, color: Colors.black12,),
+            child: Divider(
+              thickness: 1.0,
+              color: Colors.black12,
+            ),
           ),
           // comment TextField
           Padding(
@@ -388,7 +470,15 @@ class _NewsPageState extends State<NewsPage> {
       Food food, User myUser, AsyncSnapshot<List<types.TextMessage>> snapshot) {
     return Row(children: [
       IconButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ChatPage(
+                  foodId: food.identify ?? 'gfjqW3QMDKnua6MDHUjd',
+                  user: types.User(
+                      id: myUser.uid,
+                      lastName: myUser.displayName,
+                      imageUrl: myUser.photoURL))));
+        },
         icon: const Icon(
           Icons.mode_comment_rounded,
           color: Colors.black38,

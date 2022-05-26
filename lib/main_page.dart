@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.storefront_outlined), label: "news"),
           BottomNavigationBarItem(icon: Icon(Icons.search_outlined),label: "search"),
-          BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline_outlined),label: "add"),
+          BottomNavigationBarItem(icon: Icon(Icons.person),label: "add"),
         ],
 
         selectedItemColor: Colors.black,

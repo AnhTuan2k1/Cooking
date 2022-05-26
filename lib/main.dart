@@ -1,4 +1,5 @@
 import 'package:cooking/provider/google_sign_in.dart';
+import 'package:cooking/provider/myfood_provider.dart';
 import 'package:cooking/provider/news_feed_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => NewsFeedProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MyFoodProvider(),
         )
       ],
       child: MaterialApp(
