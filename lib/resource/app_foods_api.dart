@@ -26,6 +26,25 @@ class FoodApi {
       return Image.network(url);
   }
 
+  static Future<List<Food>> getSearchFoods(List<String> keys, BuildContext context)
+  async {
+    final assetBundle = DefaultAssetBundle.of(context);
+    final data = await assetBundle.loadString("assets/appfoods.json");
+    final List body = jsonDecode(data);
+
+    List<Food> remoteFood = await FirestoreApi.readAllFoodsFuture();
+    List<Food> localFood = body.map((e) => Food.fromJson(e)).toList();
+    remoteFood.addAll(localFood);
+    return remoteFood.where((element) {
+      return keys.every((key) {
+        return key == '' ||
+            element.name
+                .split(' ')
+                .any((element) => element.toLowerCase() == key.toLowerCase());
+      });
+    }).toList();
+  }
+
   static Future<List<Food>> getFoodsLocally(BuildContext context) async {
     final assetBundle = DefaultAssetBundle.of(context);
     final data = await assetBundle.loadString("assets/appfoods.json");

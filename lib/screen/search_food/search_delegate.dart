@@ -60,7 +60,7 @@ class CustomSearchDelegate extends SearchDelegate {
     List<String> querys = query.split(' ');
 
     return FutureBuilder<List<Food>>(
-      future: FoodApi.getSearchFoodsLocally(querys, context),
+      future: FoodApi.getSearchFoods(querys, context),
       builder: (context, snapshot) {
         final List<Food>? foods = snapshot.data;
 
@@ -82,7 +82,7 @@ class CustomSearchDelegate extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     return FutureBuilder<List<Food>>(
-      future: FoodApi.getSearchFoodsLocally(query.split(' '), context),
+      future: FoodApi.getSearchFoods(query.split(' '), context),
       builder: (context, snapshot) {
         final List<Food>? foods = snapshot.data;
 

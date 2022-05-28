@@ -80,10 +80,10 @@ class AccountPage extends StatelessWidget {
               unselectedLabelColor: Colors.black26,
               labelColor: Colors.black,
               tabs: [
+                Tab(text: 'Món của tôi'),
                 Tab(
                   text: 'Món đã lưu',
                 ),
-                Tab(text: 'Món của tôi'),
                 Tab(
                   text: 'Đang theo dõi',
                 ),
@@ -92,8 +92,8 @@ class AccountPage extends StatelessWidget {
           ),
           body: const TabBarView(
             children: [
-              SaveFoodPage(),
               MyFoodPage(),
+              SaveFoodPage(),
               FollowingPage()
             ],
           ),
