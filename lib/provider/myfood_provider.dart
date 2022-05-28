@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../model/food.dart';
 import '../model/method.dart';
 import '../model/user.dart';
+import '../resource/app_foods_api.dart';
 import '../resource/firestore_api.dart';
 
 class MyFoodProvider extends ChangeNotifier {
@@ -26,8 +27,9 @@ class MyFoodProvider extends ChangeNotifier {
     addAll(fo);
   }
 
-  void loadsaveFood(String id, {String keys = ''}) async{
-    final fo = await FirestoreApi.readSaveFoodsByUserFuture(id, keys: keys);
+  void loadsaveFood(String id, BuildContext context, {String keys = ''}) async{
+    List<Food> fo = await FirestoreApi.readSaveFoodsByUserFuture(id, context, keys: keys);
+
     _foods.clear();
     addAll(fo);
   }

@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../model/food.dart';
 import '../../provider/google_sign_in.dart';
@@ -22,6 +23,7 @@ class FoodDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    addSearchHistory(food.identify!);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -322,5 +324,24 @@ class FoodDetail extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void addSearchHistory(String foodId) async{
+    Box<String> searchHistory = Hive.box<String>('searchHistory');
+    List<String> history = searchHistory.values.toList();
+
+    if(searchHistory.values.contains(foodId)){
+      history.remove(foodId);
+      history.insert(0, foodId);
+    }else{
+      history.insert(0, foodId);
+      if(history.length > 10){
+        history = history.take(10).toList();
+      }
+    }
+    await searchHistory.clear();
+    await searchHistory.addAll(history);
+
+    print('${history}-----------------search--------');
   }
 }

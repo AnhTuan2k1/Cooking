@@ -134,7 +134,7 @@ class FirestoreApi {
         .toList();
   }
 
-  static Future<List<Food>> readSaveFoodsByUserFuture(String userId,
+  static Future<List<Food>> readSaveFoodsByUserFuture(String userId, BuildContext context,
       {String keys = ''}) async {
     User user = await getUser(userId);
     if(user.savefood == null) return <Food>[];
@@ -143,13 +143,18 @@ class FirestoreApi {
     final docFoods = FirebaseFirestore.instance
         .collection('foods')
         .where('identify', whereIn: user.savefood);
-
     final snapshot = await docFoods.get();
 
-    return snapshot.docs
+    List<Food> remote = snapshot.docs
         .map((doc) => Food.fromJson(doc.data()))
         .where((food) => food.name.contains(keys))
         .toList();
+
+    List<Food> local = await FoodApi.getFoodsLocally(context);
+    local = local.where((element) => user.savefood!.contains(element.identify!)).toList();
+    
+    local.addAll(remote);
+    return local;
   }
 
   static Future<List<Food>> readSearchFood({String keys = ''}) async{

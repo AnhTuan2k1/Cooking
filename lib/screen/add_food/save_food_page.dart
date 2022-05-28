@@ -14,7 +14,7 @@ class SaveFoodPage extends StatelessWidget {
   Widget build(BuildContext context) {
     if(FirebaseAuth.instance.currentUser != null){
       String id = FirebaseAuth.instance.currentUser!.uid;
-      Provider.of<MyFoodProvider>(context, listen: false).loadsaveFood(id);
+      Provider.of<MyFoodProvider>(context, listen: false).loadsaveFood(id, context);
     }
      return Scaffold(
        body:SingleChildScrollView(
@@ -27,7 +27,7 @@ class SaveFoodPage extends StatelessWidget {
                     onSubmitted: (keys){
                       if(FirebaseAuth.instance.currentUser == null) return;
                       String id = FirebaseAuth.instance.currentUser!.uid;
-                      Provider.of<MyFoodProvider>(context, listen: false).loadsaveFood(id, keys: keys);
+                      Provider.of<MyFoodProvider>(context, listen: false).loadsaveFood(id, context, keys: keys);
                     },
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.search),

@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cooking/resource/firestore_api.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:tiengviet/tiengviet.dart';
 
 import '../model/food.dart';
@@ -94,5 +96,20 @@ class FoodApi {
     } on FirebaseException catch (e) {
       print('------------' + e.message.toString());
     }
+  }
+
+  static Future<List<Food>> readAllFoodsFuture(BuildContext context) async{
+    List<Food> remoteFood = await FirestoreApi.readAllFoodsFuture();
+    List<Food> localFood = await getFoodsLocally(context);
+    localFood.addAll(remoteFood);
+
+    List<Food> foods = <Food>[];
+
+    Hive.box<String>('searchHistory').values.forEach((historyFoodID){
+      if(localFood.any((food) => food.identify == historyFoodID))
+        foods.add(localFood.where((element) => element.identify == historyFoodID).first);
+    });
+
+    return foods;
   }
 }
