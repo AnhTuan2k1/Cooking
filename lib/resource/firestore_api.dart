@@ -344,7 +344,7 @@ class FirestoreApi {
   }
 
   static Future updateFollowing(String following) async {
-    print(FirebaseAuth.instance.currentUser);
+    //print(FirebaseAuth.instance.currentUser);
     if (FirebaseAuth.instance.currentUser == null) return;
     String id = FirebaseAuth.instance.currentUser!.uid;
     User user = await getUser(id);
@@ -362,6 +362,25 @@ class FirestoreApi {
         .then((value) => print('update following ok - fireStore'),
             onError: (error) =>
                 showToastAndroidAndiOS('fail to update following - fireStore'));
+  }
+
+  static Future<List<User>> getAllFollowingUser() async {
+    if (FirebaseAuth.instance.currentUser == null) return <User>[];
+    String id = FirebaseAuth.instance.currentUser!.uid;
+    User user = await getUser(id);
+
+    print(user.following);
+    List<User> users = <User>[];
+    if(user.following == null) return <User>[];
+    else {
+      for (var userId in user.following!) {
+        User u = await getUser(userId);
+        users.add(u);
+      }
+    }
+
+    await users;
+    return users;
   }
 
   static Stream<bool> isFollowing(String following) {

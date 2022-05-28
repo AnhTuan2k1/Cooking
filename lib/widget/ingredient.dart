@@ -110,7 +110,7 @@ class _IngredientsState extends State<Ingredients> {
               onChanged: (value) => index.content = value,
               keyboardType: TextInputType.multiline,
               maxLines: null,
-              maxLength: 56,
+              maxLength: 80,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(15),
                 filled: true,

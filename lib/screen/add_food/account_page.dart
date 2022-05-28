@@ -1,4 +1,5 @@
 import 'package:cooking/screen/add_food/add_food_page.dart';
+import 'package:cooking/screen/add_food/following_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,7 @@ class AccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -82,14 +83,18 @@ class AccountPage extends StatelessWidget {
                 Tab(
                   text: 'Món đã lưu',
                 ),
-                Tab(text: 'Món của tôi')
+                Tab(text: 'Món của tôi'),
+                Tab(
+                  text: 'Đang theo dõi',
+                ),
               ],
             ),
           ),
           body: const TabBarView(
             children: [
               SaveFoodPage(),
-              MyFoodPage()
+              MyFoodPage(),
+              FollowingPage()
             ],
           ),
         ),

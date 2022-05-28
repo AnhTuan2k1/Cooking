@@ -46,8 +46,8 @@ class _AddFoodPageState extends State<AddFoodPage> {
               onPressed: () async {
                 if (await checkdata(context)) saveFood();
               },
-              child: Text(
-                'Lưu Món',
+              child: const Text(
+                'Thêm Món',
                 style: TextStyle(color: Colors.black),
               ),
               style: OutlinedButton.styleFrom(
