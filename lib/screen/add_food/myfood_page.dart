@@ -17,8 +17,7 @@ class MyFoodPage extends StatelessWidget {
       String id = FirebaseAuth.instance.currentUser!.uid;
       Provider.of<MyFoodProvider>(context, listen: false).loadFood(id);
     }
-    return Scaffold(
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
         child: Column(children: [
           Container(
             child: Padding(
@@ -51,8 +50,7 @@ class MyFoodPage extends StatelessWidget {
             },
           )
         ]),
-      ),
-    );
+      );
   }
 
   Widget buildGridfood(List<Food> foods, BuildContext context) {

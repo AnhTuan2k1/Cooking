@@ -19,6 +19,7 @@ class AccountPage extends StatelessWidget {
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
             backgroundColor: Colors.white,
             leading: Padding(
