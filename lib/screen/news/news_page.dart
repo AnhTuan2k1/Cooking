@@ -131,9 +131,9 @@ class _NewsPageState extends State<NewsPage> {
                   return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 32),
                       child: Center(
-                          child: hasMore
-                              ? const CircularProgressIndicator()
-                              : const Text('no more data')));
+                          child: !hasMore
+                              ? const Text('no more data')
+                              : const CircularProgressIndicator()));
                 }
               });
         },
@@ -250,14 +250,20 @@ class _NewsPageState extends State<NewsPage> {
     } else if (duration.inDays < 30) {
       time = duration.inDays.toString() + 'days ago';
     } else {
-      time = (duration.inDays / 30).toString() + 'months ago';
+      time = (duration.inDays / 30).toInt().toString() + 'months ago';
     }
 
     return Row(children: [
       Expanded(
         child: ListTile(
-          leading: CircleAvatar(
-              backgroundImage: NetworkImage(user.imageUrl ?? urlDragonAvatar)),
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => OtherAccountPage(user: user)));
+            },
+            child: CircleAvatar(
+                backgroundImage: NetworkImage(user.imageUrl ?? urlDragonAvatar)),
+          ),
           title:
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             GestureDetector(

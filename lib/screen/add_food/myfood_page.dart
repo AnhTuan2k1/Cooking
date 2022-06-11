@@ -1,4 +1,4 @@
-import 'package:cooking/resource/firestore_api.dart';
+import 'package:cooking/screen/dialog/delete_food_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -93,6 +93,16 @@ class MyFoodPage extends StatelessWidget {
         onTap: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => FoodDetail(food: food)));
+        },
+        onLongPress: () async{
+          bool? a = await showAlertDeleteFoodDialog(context: context);
+          if(a != null){
+            if(a){
+              if(FirebaseAuth.instance.currentUser == null) return;
+              String id = FirebaseAuth.instance.currentUser!.uid;
+              Provider.of<MyFoodProvider>(context, listen: false).deleteFood(id, food.identify??'');
+            }
+          }
         },
       ));
     });

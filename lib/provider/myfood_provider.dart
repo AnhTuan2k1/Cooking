@@ -33,4 +33,9 @@ class MyFoodProvider extends ChangeNotifier {
     _foods.clear();
     addAll(fo);
   }
+
+  void deleteFood(String userId, String foodId) async{
+    await FirestoreApi.deleteFood(foodId);
+    loadFood(userId);
+  }
 }

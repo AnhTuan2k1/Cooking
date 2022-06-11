@@ -164,7 +164,7 @@ class FirestoreApi {
     final snapshot = await docFoods.get();
     return snapshot.docs
         .map((doc) => Food.fromJson(doc.data()))
-        .where((food) => food.name.contains(keys))
+        .where((food) => food.name.toLowerCase().contains(keys.toLowerCase()))
         .toList();
   }
 
@@ -432,5 +432,13 @@ class FirestoreApi {
           .toList()
           .contains(foodId);
     });
+  }
+
+  static deleteFood(String foodId) {
+    FirebaseFirestore.instance
+        .collection('foods').doc(foodId).delete()
+        .then((value) => print("food Deleted"))
+        .catchError((error) => print("Failed to delete food: $error"));
+
   }
 }

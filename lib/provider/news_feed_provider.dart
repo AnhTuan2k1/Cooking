@@ -37,10 +37,6 @@ class NewsFeedProvider extends ChangeNotifier {
         notIncludeFoods: _foods.map((e) => e.identify!).toList(),
         following: user.following!);
 
-    // likes
-    foods.sort((a, b) => -a.likes!.length.compareTo(b.likes!.length));
-    //foods = foods.reversed.toList();
-
     // following
     foods.forEach((food) {
       user.following!.forEach((following) {
@@ -55,6 +51,10 @@ class NewsFeedProvider extends ChangeNotifier {
     //time
     foods.sort((a, b) => -a.dateCreate.compareTo(b.dateCreate));
 
+
+    // likes
+    foods.sort((a, b) => -a.likes!.length.compareTo(b.likes!.length));
+    //foods = foods.reversed.toList();
 
 
     List<Food> removeFood = <Food>[];
