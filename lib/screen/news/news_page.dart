@@ -92,7 +92,7 @@ class NewsPage extends StatefulWidget {
 
 class _NewsPageState extends State<NewsPage> {
   final controller = ScrollController();
-  bool hasMore = true;
+  bool hasMore = false;
 
   @override
   void initState() {
